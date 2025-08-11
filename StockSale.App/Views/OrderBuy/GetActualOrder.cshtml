@@ -1,0 +1,207 @@
+﻿@model StockSale.App.Models.ViewModels.ActualOrderViewModel
+
+@{
+    ViewData["Title"] = "Orden de Compra";
+    var discountValue = 0f;
+    var total = 0f;
+    var totalDiscount = 0f;
+    var finalTotal = 0f;
+    if(Model != null)
+    {
+        discountValue = Model.Discount.Value;
+        if (Model.Products_Prices != null)
+        {
+            foreach (var product in Model.Products_Prices)
+            {
+                // Calcula el importe total sumando precio * cantidad
+                var sumtotal = product.PriceSell * product.Quantity;
+                total += sumtotal;
+            }
+            // Si se paga en efectivo, sumar un 10%.
+            if(Model.CashPay)
+            {
+                discountValue = discountValue += 10;
+            }
+            // Calcula el descuento total y el total final
+            if (Model.Discount.HasValue && Model.Discount > 0)
+            {
+                totalDiscount = total * discountValue / 100; // Aplica el porcentaje de descuento
+                finalTotal = total - totalDiscount; // Calcula el total después del descuento
+            }
+            else
+            {
+                finalTotal = total; // Si no hay descuento, el total final es el total
+            }
+    }
+}
+
+    <h1 class="title mb-4">Orden Actual</h1>
+    @if (Model != null)
+    {
+        <div class="@(Model.Client != null ? "four-grid" : "three-grid")">
+            @if (Model.Client != null)
+            {
+                <div class="d-flex flex-column text-start">
+                    <p><strong>Nombre:</strong> @Model.Client.Name</p>
+                    <p><strong>Email:</strong> @Model.Client.Email</p>
+                    <p><strong>Empresa:</strong> @Model.Client.Company</p>
+                </div>
+
+                <div>
+                    <form asp-area=""
+                          asp-controller="OrderBuy"
+                          asp-action="RemoveClientFromOrder"
+                          method="post">
+                        <button type="submit" class="cls-btn cls-btn-1">
+                            Quitar Cliente de la Orden
+                        </button>
+                    </form>
+                </div>
+            }
+            else
+            {
+                <p class="notFound">No hay un cliente.</p>
+            }
+
+            <div>
+                <form asp-area=""
+                      asp-controller="OrderBuy"
+                      asp-action="CloseOrder"
+                      asp-route-id="@Model.Id"
+                      asp-route-cashpay="@Model.CashPay"
+                      method="post">
+                    <input type="hidden" name="cashpay" id="hiddenCashPay" value="@Model.CashPay.ToString().ToLower()" />
+                    <button type="submit" class="cls-btn cls-btn-1">
+                        Cerrar Orden
+                    </button>
+                </form>
+            </div>
+
+            <div>
+                <form 
+                asp-area=""
+                asp-controller="OrderBuy"
+                asp-action="AddProductsToOrder"
+                method="get">
+                    <button class="new-button w-100" type="submit">
+                        <span class="new-button__text">Añadir Productos</span>
+                        <span class="new-button__icon">
+                            <svg class="svg" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                                <line x1="12" x2="12" y1="5" y2="19"></line>
+                                <line x1="5" x2="19" y1="12" y2="12"></line>
+                            </svg>
+                        </span>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+<h1>Productos Añadidos</h1>
+        @if(Model.Products_Prices.Count > 0 && Model.Products_Prices != null)
+        {
+                <table class="table table-bordered table-hover">
+                <thead class="table-head">
+                    <tr>
+                        <th>Nombre del Producto</th>
+                        <th>Precio Unitario</th>
+                        <th>Cantidad</th>
+                        <th>Importe</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="productAddedList">
+                @foreach (var product in Model.Products_Prices)
+                {
+                var totalxquantity = product?.PriceSell * product?.Quantity;
+                <tr>
+                    <td class="productName">@product?.Product.Name</td>
+                    <td>@product?.PriceSell.ToString("C")</td>
+                    <td>@product?.Quantity</td>
+                    <td>@totalxquantity.Value.ToString("C")</td>
+                    <td>
+
+                @* Verifica si el Id del producto no es nulo *@
+                @if (product?.Id != null)
+                {
+                    <form asp-area=""
+                    asp-controller="OrderBuy"
+                    asp-action="DeleteProductPrice"
+                    asp-route-productPriceId="@product.Id"
+                    method="post" style="display:inline;">
+                    <button class="dlt-button m-auto" type="submit">
+                        <span>
+                            Eliminar
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-miterlimit="2" stroke-linejoin="round" fill-rule="evenodd" clip-rule="evenodd"><path fill-rule="nonzero" d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"></path></svg>
+                        </span>
+                    </button>
+                    </form>
+                }
+                else
+                {
+                    <span class="text-danger">ID no disponible</span>
+                }
+                </td>
+                </tr>
+            }
+            </tbody>
+            </table>
+
+            <div class="two-grid mt-4">
+            <div class="">
+                <h4 id="total">Importe Total: @total.ToString("C")</h4>
+                <h4 id="discount">Descuento Cliente: @(discountValue.ToString("0.##") ?? "0")%</h4>
+                <h4 id="totalDiscount">Descuento Aplicado: @totalDiscount.ToString("C")</h4>
+                <h4 id="finalTotal">Total Final: @finalTotal.ToString("C")</h4>          
+            </div>
+                <div class="two-grid">
+                    <div class="form-check">
+                        <input asp-for="CashPay" class="form-check-input" type="checkbox" id="cashPay">
+                        <label class="form-check-label" for="cashPay">
+                            Pago en Efectivo
+                        </label>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <p class="notFound">No hay productos añadidos.</p>
+        }
+
+    }
+    else
+    {
+        <p class="notFound">No ninguna orden activa.</p>
+    }
+}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const cashPayCheckbox = document.getElementById("cashPay");
+        const hiddenCashPay = document.getElementById("hiddenCashPay");
+
+        // Convertir los valores de Razor en valores numéricos seguros
+        const originalDiscount = parseFloat(@Html.Raw(Json.Serialize(discountValue))); // Descuento original
+        const total = parseFloat(@Html.Raw(Json.Serialize(total))); // Importe total
+
+        // Función para actualizar los valores
+        function updateTotals() {
+            let isChecked = cashPayCheckbox.checked;
+            let appliedDiscount = isChecked ? originalDiscount + 10 : originalDiscount; // Si está marcado, suma 10%, si no, mantiene original
+            let totalDiscount = (total * appliedDiscount) / 100;
+            let finalTotal = total - totalDiscount;
+
+            // Actualizar valores en la vista
+            document.getElementById("discount").textContent = `Descuento Cliente: ${appliedDiscount.toFixed(2)}%`;
+            document.getElementById("totalDiscount").textContent = `Descuento Aplicado: ${totalDiscount.toLocaleString('es-AR', { style: 'currency', currency: 'ARS' })}`;
+            document.getElementById("finalTotal").textContent = `Total Final: ${finalTotal.toLocaleString('es-AR', { style: 'currency', currency: 'ARS' })}`;
+
+            // Actualizar input oculto
+            hiddenCashPay.value = isChecked.toString().toLowerCase();
+        }
+
+        // Evento para cambio en checkbox
+        cashPayCheckbox.addEventListener("change", updateTotals);
+    });
+</script>

@@ -1,0 +1,99 @@
+﻿@model StockSale.App.Models.Domain.Client
+@{
+    // Lista de condiciones frente al IVA
+    var ivaConditions = new List<SelectListItem>
+    {
+        new SelectListItem { Value = "Responsable Inscripto", Text = "Responsable Inscripto" },
+        new SelectListItem { Value = "Monotributista", Text = "Monotributista" },
+        new SelectListItem { Value = "Exento", Text = "Exento" },
+        new SelectListItem { Value = "Consumidor Final", Text = "Consumidor Final" }
+    };
+}
+<h1 class="title mb-3">Editar Cliente</h1>
+<div>
+    @if (Model != null)
+    {
+        <form method="post">
+            <div hidden>
+            <label></label>
+            <input type="text" class="form-control" id="id" asp-for="Id" readonly/>
+            </div>
+        <div class="two-grid">
+            <div class="editBox">
+                <label> N° Cliente</label>
+                <input type="text" id="nclient" asp-for="NClient" readonly/>
+            </div>
+                <div class="editBox">
+                <label>Nombre</label>
+                <input type="text" id="name" asp-for="Name" required/>
+            </div>
+                <div class="editBox">
+                <label>Email</label>
+                <input type="text" id="email" asp-for="Email" required/>
+            </div>
+                <div class="editBox">
+                <label>DNI</label>
+                <input type="text" id="dni" asp-for="Dni" required/>
+            </div>
+                <div class="editBox">
+                <label>Telefono</label>
+                <input type="text" id="phone" asp-for="Phone" required/>
+            </div>
+
+                <div class="editBox">
+                <label>Cuil-t</label>
+                <input type="text" id="cuil_t" asp-for="Cuil_t" />
+            </div>
+                <div class="editBox">
+                <label>Empresa</label>
+                <input type="text" id="company" asp-for="Company" />
+            </div>
+                <div class="editBox">
+                    <label>Deudas</label>
+                    <a class="editGoButton w-50" asp-area="" asp-controller="Client" asp-action="DebtsList" asp-route-id="@Model.Id">
+                        <svg viewBox="0 0 24 24" class="arr-2" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"></path>
+                        </svg>
+                        <span class="text">Ir a Deudas</span>
+                        <span class="circle"></span>
+                        <svg viewBox="0 0 24 24" class="arr-1" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"></path>
+                        </svg>
+                    </a>
+                </div>
+            <!-- Cambiar input por select para Condición Frente al Iva -->
+                <div class="editBox">
+                <label>Condicion Frente al Iva</label>
+                <select asp-for="Condition_Iva" asp-items="ivaConditions">
+                    <option value="">Selecciona una opción</option>
+                </select>
+            </div>
+
+                <div class="editBox">
+               <label>Descuento</label>
+               <input type="number" id="discount" asp-for="Discount" min="0" max="100" />
+            </div>
+        </div>
+            <div class="two-grid mb-3 mt-3">
+                <button type="submit" class="conf-button"
+                        asp-area=""
+                        asp-controller="Client"
+                        asp-action="Edit">
+                    <span class="text">Actualizar</span>
+                </button>
+                <button class="dlt-button" type="submit" asp-area="" asp-controller="Client" asp-action="Delete">
+                    <span>
+                        Eliminar
+                    </span>
+                    <span>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-miterlimit="2" stroke-linejoin="round" fill-rule="evenodd" clip-rule="evenodd"><path fill-rule="nonzero" d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"></path></svg>
+                    </span>
+                </button>
+            </div>
+        </form>
+    }
+    else
+    {
+        <p> No se pudo encontrar al cliente.</p>
+    }
+</div>

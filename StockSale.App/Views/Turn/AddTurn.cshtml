@@ -1,0 +1,73 @@
+﻿@model StockSale.App.Models.ViewModels.TurnViewModel
+
+@{
+    ViewData["Title"] = "Nuevo Turno";
+}
+
+<div class="container mt-5">
+    <h1 class="text-center">@ViewData["Title"]</h1>
+
+    <!-- Formulario para iniciar un nuevo turno -->
+    <form asp-action="Start" method="post" class="mb-4">
+        <div class="mb-3">
+            <label asp-for="Initial_Cash" class="form-label">Efectivo Inicial</label>
+            <input asp-for="Initial_Cash" class="form-control" placeholder="Ingrese el efectivo inicial" required />
+            <span asp-validation-for="Initial_Cash" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Iniciar Turno</button>
+    </form>
+
+    <!-- Botón para añadir una nueva OrderBuy -->
+    <div class="mb-4">
+        <a asp-area="" asp-controller="OrderBuy" asp-action="Add" class="btn btn-success">
+            Añadir Nueva Venta (OrderBuy)
+        </a>
+    </div>
+
+    <!-- Botón para ir a la vista de añadir un nuevo ProviderOrder -->
+    <div class="mb-4">
+        <a asp-area="" asp-controller="ProviderOrder" asp-action="Add" class="btn btn-details">
+            Añadir Pedido a Proveedor (ProviderOrder)
+        </a>
+    </div>
+
+    <!-- Tabla que muestra las OrderBuys del día -->
+    <h3 class="mt-5">Ventas del Día (OrderBuys)</h3>
+    <table class="table table-striped mt-3">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Cliente</th>
+                <th>Importe</th>
+                <th>Descuento</th>
+                <th>Total</th>
+                <th>Detalles</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if(Model.OrderBuys != null)
+            {
+                @foreach (var order in Model.OrderBuys)
+                {
+                    <tr>
+                        <td>@order.Date.ToShortDateString()</td>
+                        <td>@order.Client?.Name ?? "Sin Cliente"</td>
+                        <td>@order.Import.ToString("C")</td>
+                        <td>@order.Discount%</td>
+                        <td>@(order.Import - (order.Import * (order.Discount / 100.0f))).ToString("C")</td>
+                        <td>
+                            <a asp-area="" asp-controller="OrderBuy" asp-action="Details" asp-route-id="@order.Id" class="btn btn-info btn-sm">
+                                Ver Detalles
+                            </a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <p>No hay ninguna venta!</p>
+            }
+            
+        </tbody>
+    </table>
+</div>

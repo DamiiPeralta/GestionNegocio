@@ -1,0 +1,262 @@
+[
+  {
+    "NProduct": 1,
+    "Name": "Clavo Acero 1 Pulgada",
+    "Packaging": 60,
+    "Stock": 400,
+    "Stock_Limit": 60,
+    "List_Price": 3500,
+    "Sell_Price": 6000,
+    "Provider": { "Name": "Ferreteria Los Clavos" },
+    "UnitM": {
+      "Name": "Kilo"
+    }
+  },
+  {
+    "NProduct": 2,
+    "Name": "Clavo Acero 1 1/2 Pulgada",
+    "Packaging": 60,
+    "Stock": 400,
+    "Stock_Limit": 60,
+    "List_Price": 4000,
+    "Sell_Price": 7000,
+    "Provider": { "Name": "Ferreteria Los Clavos" },
+    "UnitM": {
+      "Name": "Kilo"
+    }
+  },
+  {
+    "NProduct": 3,
+    "Name": "Clavo Acero 2 Pulgadas",
+    "Packaging": 60,
+    "Stock": 400,
+    "Stock_Limit": 60,
+    "List_Price": 5000,
+    "Sell_Price": 8000,
+    "Provider": { "Name": "Ferreteria Los Clavos" },
+    "UnitM": {
+      "Name": "Kilo"
+    }
+  },
+  {
+    "NProduct": 4,
+    "Name": "Clavo Acero 2 1/2 Pulgadas",
+    "Packaging": 60,
+    "Stock": 400,
+    "Stock_Limit": 60,
+    "List_Price": 5000,
+    "Sell_Price": 8900,
+    "Provider": { "Name": "Ferreteria Los Clavos" },
+    "UnitM": {
+      "Name": "Kilo"
+    }
+  },
+  {
+    "NProduct": 5,
+    "Name": "Clavo Acero 3 Pulgadas",
+    "Packaging": 60,
+    "Stock": 400,
+    "Stock_Limit": 60,
+    "List_Price": 5500,
+    "Sell_Price": 8500,
+    "Provider": { "Name": "Ferreteria Los Clavos" },
+    "UnitM": {
+      "Name": "Kilo"
+    }
+  },
+  {
+    "NProduct": 6,
+    "Name": "Clavo Acero 3 1/2 Pulgadas",
+    "Packaging": 60,
+    "Stock": 400,
+    "Stock_Limit": 60,
+    "List_Price": 6000,
+    "Sell_Price": 9000,
+    "Provider": { "Name": "Ferreteria Los Clavos" },
+    "UnitM": {
+      "Name": "Kilo"
+    }
+  },
+  {
+    "NProduct": 7,
+    "Name": "Clavo Acero 4 Pulgadas",
+    "Packaging": 60,
+    "Stock": 400,
+    "Stock_Limit": 60,
+    "List_Price": 7000,
+    "Sell_Price": 10000,
+    "Provider": { "Name": "Ferreteria Los Clavos" },
+    "UnitM": {
+      "Name": "Kilo"
+    }
+  },
+  {
+    "NProduct": 8,
+    "Name": "Clavo Espiralado 1 Pulgada",
+    "Packaging": 60,
+    "Stock": 400,
+    "Stock_Limit": 60,
+    "List_Price": 3500,
+    "Sell_Price": 6000,
+    "Provider": { "Name": "Ferreteria Los Clavos" },
+    "UnitM": {
+      "Name": "Kilo"
+    }
+  },
+  {
+    "NProduct": 9,
+    "Name": "Clavo Espiralado 1 1/2 Pulgada",
+    "Packaging": 60,
+    "Stock": 400,
+    "Stock_Limit": 60,
+    "List_Price": 4000,
+    "Sell_Price": 6500,
+    "Provider": { "Name": "Ferreteria Los Clavos" },
+    "UnitM": {
+      "Name": "Kilo"
+    }
+  },
+  {
+    "NProduct": 10,
+    "Name": "Clavo Espiralado 2 Pulgadas",
+    "Packaging": 60,
+    "Stock": 400,
+    "Stock_Limit": 60,
+    "List_Price": 4500,
+    "Sell_Price": 7000,
+    "Provider": { "Name": "Ferreteria Los Clavos" },
+    "UnitM": {
+      "Name": "Kilo"
+    }
+  },
+  {
+    "NProduct": 11,
+    "Name": "Clavo Espiralado 2 1/2 Pulgadas",
+    "Packaging": 60,
+    "Stock": 400,
+    "Stock_Limit": 60,
+    "List_Price": 5000,
+    "Sell_Price": 7500,
+    "Provider": { "Name": "Ferreteria Los Clavos" },
+    "UnitM": {
+      "Name": "Kilo"
+    }
+  },
+  {
+    "NProduct": 12,
+    "Name": "Clavo Espiralado 3 Pulgadas",
+    "Packaging": 60,
+    "Stock": 400,
+    "Stock_Limit": 60,
+    "List_Price": 5500,
+    "Sell_Price": 8000,
+    "Provider": { "Name": "Ferreteria Los Clavos" },
+    "UnitM": {
+      "Name": "Kilo"
+    }
+  },
+  {
+    "NProduct": 13,
+    "Name": "Clavo Espiralado 3 1/2 Pulgadas",
+    "Packaging": 60,
+    "Stock": 400,
+    "Stock_Limit": 60,
+    "List_Price": 6000,
+    "Sell_Price": 8500,
+    "Provider": { "Name": "Ferreteria Los Clavos" },
+    "UnitM": {
+      "Name": "Kilo"
+    }
+  },
+  {
+    "NProduct": 14,
+    "Name": "Clavo Espiralado 4 Pulgadas",
+    "Packaging": 60,
+    "Stock": 400,
+    "Stock_Limit": 60,
+    "List_Price": 7000,
+    "Sell_Price": 9500,
+    "Provider": { "Name": "Ferreteria Los Clavos" },
+    "UnitM": {
+      "Name": "Kilo"
+    }
+  },
+  {
+    "NProduct": 15,
+    "Name": "Clavo p/ Clavadora Neumatica 20mm 5000 u.",
+    "Packaging": 60,
+    "Stock": 400,
+    "Stock_Limit": 60,
+    "List_Price": 10000,
+    "Sell_Price": 10500,
+    "Provider": { "Name": "Ferreteria Los Clavos" },
+    "UnitM": {
+      "Name": "Unidad"
+    }
+  },
+  {
+    "NProduct": 16,
+    "Name": "Clavo p/ Clavadora Neumatica 25mm 5000 u.",
+    "Packaging": 60,
+    "Stock": 400,
+    "Stock_Limit": 60,
+    "List_Price": 10500,
+    "Sell_Price": 11000,
+    "Provider": { "Name": "Ferreteria Los Clavos" },
+    "UnitM": {
+      "Name": "Unidad"
+    }
+  },
+  {
+    "NProduct": 17,
+    "Name": "Clavo p/ Clavadora Neumatica 30mm 5000 u.",
+    "Packaging": 60,
+    "Stock": 400,
+    "Stock_Limit": 60,
+    "List_Price": 9000,
+    "Sell_Price": 11000,
+    "Provider": { "Name": "Ferreteria Los Clavos" },
+    "UnitM": {
+      "Name": "Unidad"
+    }
+  },
+  {
+    "NProduct": 18,
+    "Name": "Clavo p/ Clavadora Neumatica 35mm 5000 u.",
+    "Packaging": 60,
+    "Stock": 400,
+    "Stock_Limit": 60,
+    "List_Price": 9500,
+    "Sell_Price": 12000,
+    "Provider": { "Name": "Ferreteria Los Clavos" },
+    "UnitM": {
+      "Name": "Unidad"
+    }
+  },
+  {
+    "NProduct": 19,
+    "Name": "Clavo p/ Clavadora Neumatica 45mm 5000 u.",
+    "Packaging": 60,
+    "Stock": 400,
+    "Stock_Limit": 60,
+    "List_Price": 9500,
+    "Sell_Price": 11500,
+    "Provider": { "Name": "Ferreteria Los Clavos" },
+    "UnitM": {
+      "Name": "Unidad"
+    }
+  },
+  {
+    "NProduct": 20,
+    "Name": "Clavo p/ Clavadora Neumatica 50mm 5000 u.",
+    "Packaging": 50,
+    "Stock": 400,
+    "Stock_Limit": 500,
+    "List_Price": 10000,
+    "Sell_Price": 12000,
+    "Provider": { "Name": "Ferreteria Los Clavos" },
+    "UnitM": {
+      "Name": "Unidad"
+    }
+  }
+] 

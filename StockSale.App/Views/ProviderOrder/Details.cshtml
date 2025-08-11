@@ -1,0 +1,93 @@
+﻿@model StockSale.App.Models.Domain.ProviderOrder
+
+@{
+    ViewData["Title"] = "Detalles";
+    var total = 0f;
+    if (Model.Products_Prices != null)
+    {
+        foreach (var product in Model.Products_Prices)
+        {
+            // Calcula el importe total sumando precio * cantidad
+            var sumtotal = product.PriceList * product.Quantity;
+            total += sumtotal;
+        }
+    }
+}
+
+<h1 class="title mb-4">Detalles</h1>
+    @if (Model != null)
+    {
+    <div class="two-grid mb-4">
+        <table class="table">
+            <thead class="table-head">
+                <tr>
+                    <th colspan="2">Proveedor Correspondiente</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>N° Orden:</strong></td>
+                    <td>@Model.NProviderOrder.ToString("D4")</td>
+                </tr>
+                <tr>
+                    <td><strong>Fecha:</strong></td>
+                    <td>@Model.Date.ToString("dd/MM/yyyy")</td>
+                </tr>
+                <tr>
+                    <td><strong>Proveedor:</strong></td>
+                    <td>@Model.Provider.Name</td>
+                </tr>
+            </tbody>
+        </table>
+        <form asp-area="" asp-controller="ProviderOrder" asp-action="Delete" asp-route-id="@Model.Id" method="post">
+            <button class="dlt-button w-75 m-auto" type="submit">
+                <span>
+                    Eliminar
+                </span>
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-miterlimit="2" stroke-linejoin="round" fill-rule="evenodd" clip-rule="evenodd"><path fill-rule="nonzero" d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"></path></svg>
+                </span>
+            </button>
+        </form>
+    </div>
+        <table class="table table-bordered table-hover">
+            <thead class="table-head">
+                <tr>
+                    <th>N° Producto</th>
+                    <th>Nombre</th>
+                    <th>Precio Lista</th>
+                    <th>Cantidad</th>
+                    <th>Importe</th>
+                </tr>
+            </thead>
+            <tbody class="tbody">
+                @if (Model.Products_Prices.Any())
+                {
+                    foreach (var productPrice in Model.Products_Prices)
+                    {
+                        var import = 0f;
+                        import = productPrice.PriceList * productPrice.Quantity;
+                        <tr>
+                            <td>@productPrice.Product.NProduct.ToString("D4")</td>
+                            <td>@productPrice.Product.Name</td>
+                            <td>$@productPrice.PriceList</td>
+                            <td>@productPrice.Quantity</td>
+                            <td>@import.ToString("C")</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6" class="text-center">No hay productos para esta orden</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <h4 class="title">Total: @total.ToString("C")</h4>
+    }
+    else
+    {
+        <p class="notFound">Esta orden no existe.</p>
+    }
+</div>

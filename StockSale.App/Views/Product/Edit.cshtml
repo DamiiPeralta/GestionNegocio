@@ -1,0 +1,148 @@
+﻿@model StockSale.App.Models.ViewModels.EditProductViewModel
+
+<h1 class="title mb-3">Editar Producto</h1>
+<div>
+    <form method="post" id="editProductForm">
+        <div hidden>
+            <label class="form-label"></label>
+            <input type="text" class="form-control" id="id" asp-for="Id" readonly />
+        </div>
+        <div class="two-grid">
+            <div class="editBox">
+                <label>N° Producto</label>
+                <input type="text" id="nproduct" asp-for="NProduct" readonly />
+            </div>
+            <div class="editBox">
+                <label>Nombre</label>
+                <input type="text" id="name" asp-for="Name" />
+            </div>
+            <div class="editBox">
+                <label>Packaging</label>
+                <input type="number" id="packaging" asp-for="Packaging" />
+            </div>
+            <div class="editBox">
+                <label>Stock</label>
+                <input type="number" asp-for="Stock" />
+            </div>
+            <div class="editBox">
+                <label>Stock Límite</label>
+                <input type="number" asp-for="Stock_Limit" />
+            </div>
+            <div class="editBox">
+                <label>Precio de Lista</label>
+                <input type="number" asp-for="List_Price" />
+            </div>
+            <div class="editBox">
+                <label>Precio de Venta</label>
+                <input type="number" asp-for="Sell_Price" />
+            </div>
+
+            <!-- Barcode con botón para modal -->
+            <div class="editBox" style="display: flex; flex-direction: column;">
+                <label>Barcode</label>
+                <input type="text" id="barcode" asp-for="Barcode" readonly style="margin-bottom: 0.5rem;" />
+                <button type="button" id="btnOpenBarcodeModal" class="conf-button" style="width: 100%; max-width: 180px;">
+                    Ingresar código
+                </button>
+            </div>
+
+            <!-- Dropdown para Proveedores -->
+            <div class="editBox">
+                <label>Proveedor</label>
+                <select asp-for="ProviderId" asp-items="@(new SelectList(Model.Providers, "Id", "Name"))">
+                    <option value="">Seleccione un proveedor</option>
+                </select>
+            </div>
+
+            <!-- Dropdown para Unidades de Medida -->
+            <div class="editBox">
+                <label>Unidad de Medida</label>
+                <select asp-for="UnitMId" asp-items="@(new SelectList(Model.UnitsM, "Id", "Name"))">
+                    <option value="">Seleccione la unidad de medida</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="two-grid mb-3 mt-3">
+            <button type="submit" class="conf-button"
+                    asp-area=""
+                    asp-controller="Product"
+                    asp-action="Edit">
+                <span class="text">Actualizar</span>
+            </button>
+
+            @if (Model.IsDeleted == false)
+            {
+                <button class="dlt-button" type="submit" asp-area="" asp-controller="Product" asp-action="Delete">
+                    <span>Eliminar</span>
+                    <span>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-miterlimit="2" stroke-linejoin="round" fill-rule="evenodd" clip-rule="evenodd"><path fill-rule="nonzero" d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"></path></svg>
+                    </span>
+                </button>
+            }
+            else
+            {
+                <button type="submit" class="btn btn-success ms-2"
+                        asp-area=""
+                        asp-controller="Product"
+                        asp-action="RecoverProduct"
+                        asp-route-id="Model.Id">
+                    Recuperar
+                </button>
+            }
+        </div>
+    </form>
+</div>
+
+<!-- Modal para ingresar barcode manualmente -->
+<div id="barcodeModal" style="display:none; position: fixed; z-index: 1000; left:0; top:0; width:100%; height:100%; overflow:auto; background-color: rgba(0,0,0,0.5);">
+    <div style="background-color: white; margin: 10% auto; padding: 20px; border-radius: 8px; width: 300px; position: relative;">
+        <h3>Ingresar Código de Barras</h3>
+        <input type="text" id="barcodeInput" style="width: 100%; padding: 8px; margin-top: 10px;" placeholder="Escanea o escribe el código" autofocus />
+        <div style="margin-top: 15px; display: flex; justify-content: space-between;">
+            <button type="button" id="btnSaveBarcode" class="conf-button" style="flex: 1; margin-right: 5px;">Guardar</button>
+            <button type="button" id="btnCloseBarcodeModal" class="dlt-button" style="flex: 1;">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Abrir modal
+        document.getElementById('btnOpenBarcodeModal').addEventListener('click', function () {
+            document.getElementById('barcodeModal').style.display = 'block';
+            document.getElementById('barcodeInput').value = '';
+            document.getElementById('barcodeInput').focus();
+        });
+
+        // Guardar barcode y cerrar modal
+        document.getElementById('btnSaveBarcode').addEventListener('click', function () {
+            var barcodeValue = document.getElementById('barcodeInput').value.trim();
+            if (barcodeValue.length > 0) {
+                document.getElementById('barcode').value = barcodeValue;
+            }
+            document.getElementById('barcodeModal').style.display = 'none';
+        });
+
+        // Cerrar modal sin guardar
+        document.getElementById('btnCloseBarcodeModal').addEventListener('click', function () {
+            document.getElementById('barcodeModal').style.display = 'none';
+        });
+
+        // También cerrar modal si el usuario hace click afuera del contenido
+        window.onclick = function (event) {
+            var modal = document.getElementById('barcodeModal');
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        };
+
+        // Al presionar Enter en el input modal, guarda y cierra
+        document.getElementById('barcodeInput').addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                document.getElementById('btnSaveBarcode').click();
+            }
+        });
+    </script>
+}

@@ -1,0 +1,198 @@
+﻿@model List<StockSale.App.Models.Domain.Debt>
+
+@{
+    var clientId = ViewBag.ClientId;
+    int nextPage = ViewBag.PageNumber + 1;
+    int prevPage = ViewBag.PageNumber - 1;
+    int totalDebts = 0;
+    int totalPayments = 0;
+    foreach(var debt in Model.ToList())
+    {
+        if(debt.Status)
+        {
+            totalDebts += debt.Import;
+        }
+        else
+        {
+            totalPayments += debt.Import;
+        }
+    };
+    int resultDebts = totalPayments - totalDebts;
+}
+
+<h1 class="title">Deudas</h1>
+<div class="two-grid">
+    <!-- Formulario para Pagar Deuda -->
+    <form method="post" asp-area="" asp-action="AddDebt" asp-route-id="@clientId" asp-route-isDebt="false" id="removeDebtForm" class="double-grid">
+        <input type="number" id="payment" name="import" class="input-left"/>
+        <button class="new-button add-button w-100" type="submit" onclick="updatePaymentRoute()">
+            <span class="new-button__text">Pagar Deuda</span>
+            <span class="new-button__icon">
+                <svg class="svg" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="12" x2="12" y1="5" y2="19"></line>
+                    <line x1="5" x2="19" y1="12" y2="12"></line>
+                </svg>
+            </span>
+        </button>
+    </form>
+
+    <!-- Formulario para Nueva Deuda -->
+    <form method="post" asp-area="" asp-action="AddDebt" asp-route-id="@clientId" asp-route-isDebt="true" id="addDebtForm" class="double-grid">
+        <input type="number" id="payment" name="import" class="input-left"/>
+        <button class="new-button remove-button w-100" type="submit" onclick="updatePaymentRoute()">
+            <span class="new-button__text">Agregar Deuda</span>
+            <span class="new-button__icon">
+                <svg class="svg" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="12" x2="12" y1="5" y2="19"></line>
+                    <line x1="5" x2="19" y1="12" y2="12"></line>
+                </svg>
+            </span>
+        </button>
+    </form>
+</div>
+
+<form method="get">
+    <div class="input-group mb-4">
+        <input class="form-control"
+               type="date"
+               name="searchString"
+               placeholder="Buscar por fecha..."
+               value="@Context.Request.Query["searchString"]" />
+        <button type="submit" class="btn-submit">
+            Buscar
+        </button>
+    </div>
+</form>
+
+<div>
+    <h2>Estado de Cuenta</h2>
+    <p>@resultDebts.ToString("C")</p>
+</div>
+
+<div>
+    @if (Model != null && Model.Any())
+    {
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead class="table-head">
+                    <tr>
+                        <th>Cliente</th>
+                        <th>Fecha</th>
+                        <th>Importe</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var debt in Model)
+                    {
+                        <tr>
+                            <td>@debt.Client.Name</td>
+                            <td>@debt.Date.ToShortDateString()</td>
+                            <td>@debt.Import.ToString("C")</td>
+                            @if (debt.Status)
+                            {
+                                <td class="text-danger fw-bold">Deuda</td>
+                            }
+                            else
+                            {
+                                <td class="text-success fw-bold">Pago</td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!-- Paginación -->
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li class="page-item @(ViewBag.PageNumber == 1 ? "disabled" : "")">
+                    <form method="get" action="/Client/DebtsList" style="display: inline;">
+                        <input type="hidden" name="pageNumber" value="@prevPage">
+                        <input type="hidden" name="pageSize" value="@ViewBag.PageSize">
+                        <input type="hidden" name="sortBy" value="@ViewBag.SortBy">
+                        <input type="hidden" name="sortDirection" value="@ViewBag.SortDirection">
+                        <button type="submit" class="button-3d">
+                            <div class="button-top">
+                                <span class="material-icons">❮</span>
+                            </div>
+                            <div class="button-bottom"></div>
+                            <div class="button-base"></div>
+                        </button>
+                    </form>
+                </li>
+
+
+                <!-- Páginas visibles -->
+                @for (int i = 0; i < ViewBag.VisiblePages.Count; i++)
+                {
+                    int currentPage = ViewBag.VisiblePages[i];
+
+                    if (i > 0 && currentPage > ViewBag.VisiblePages[i - 1] + 1)
+                    {
+                        <!-- Mostrar elipsis -->
+                        <li class="page-item disabled">
+                            <button class="button-3d" disabled>
+                                <div class="button-top">
+                                    ...
+                                </div>
+                                <div class="button-bottom"></div>
+                                <div class="button-base"></div>
+                            </button>
+                        </li>
+                    }
+
+                    <li class="page-item @(ViewBag.PageNumber == currentPage ? "active" : "")">
+                        <form method="get" action="/Client/DebtsList" style="display: inline;">
+                            <input type="hidden" name="pageNumber" value="@currentPage">
+                            <input type="hidden" name="pageSize" value="@ViewBag.PageSize">
+                            <input type="hidden" name="sortBy" value="@ViewBag.SortBy">
+                            <input type="hidden" name="sortDirection" value="@ViewBag.SortDirection">
+                            <button type="submit" class="button-3d">
+                                <div class="button-top">
+                                    @currentPage
+                                </div>
+                                <div class="button-bottom"></div>
+                                <div class="button-base"></div>
+                            </button>
+                        </form>
+                    </li>
+                }
+
+                <!-- Botón "Siguiente" -->
+                <li class="page-item @(ViewBag.PageNumber == ViewBag.TotalPages ? "disabled" : "")">
+                    <form method="get" action="/Client/DebtsList" style="display: inline;">
+                        <input type="hidden" name="pageNumber" value="@nextPage">
+                        <input type="hidden" name="pageSize" value="@ViewBag.PageSize">
+                        <input type="hidden" name="sortBy" value="@ViewBag.SortBy">
+                        <input type="hidden" name="sortDirection" value="@ViewBag.SortDirection">
+                        <button type="submit" class="button-3d">
+                            <div class="button-top">
+                                <span class="material-icons">❯</span>
+                            </div>
+                            <div class="button-bottom"></div>
+                            <div class="button-base"></div>
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+    }
+    else
+    {
+        <p class="notFound">No hay deudas.</p>
+    }
+
+</div>
+
+<script>
+    function updatePaymentRoute() {
+        var paymentValue = document.getElementById("payment").value;
+
+        // Actualizar el asp-route-payment en ambos formularios
+        var addDebtForm = document.getElementById("addDebtForm");
+        var removeDebtForm = document.getElementById("removeDebtForm");
+
+        addDebtForm.setAttribute("asp-route-import", paymentValue);
+        removeDebtForm.setAttribute("asp-route-import", paymentValue);
+    }
+</script>

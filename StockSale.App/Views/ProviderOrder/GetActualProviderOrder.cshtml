@@ -1,0 +1,112 @@
+﻿@model StockSale.App.Models.ViewModels.ActualProviderOrderViewModel
+
+@{
+    ViewData["Title"] = "Orden de Proveedor";
+    var total = 0f;
+    if (Model.Products_Prices != null)
+    {
+        foreach (var product in Model.Products_Prices)
+        {
+            var sumtotal = product.PriceList * product.Quantity;
+            total += sumtotal;
+        }
+    }
+}
+        <h1 class="title mb-4">Orden de Proveedor Actual</h1>
+<div class="two-grid">
+        <button type="submit" class="cls-btn cls-btn-1 w-50" data-bs-toggle="modal" data-bs-target="#confirmCloseModal">
+        Cerrar Orden
+        </button>
+        <form method="get" 
+            asp-area=""
+            asp-controller="ProviderOrder"
+            asp-action="AddProductsToProviderOrder"
+            asp-route-id="@Model.Provider.Id">
+            <button class="new-button" type="submit">
+                <span class="new-button__text">Añadir Productos</span>
+                <span class="new-button__icon">
+                    <svg class="svg" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="12" x2="12" y1="5" y2="19"></line>
+                        <line x1="5" x2="19" y1="12" y2="12"></line>
+                    </svg>
+                </span>
+            </button>
+        </form>
+</div>
+
+<h2 class="mt-4">Productos Añadidos</h2>
+
+@if (Model.Products_Prices.Count > 0)
+{
+    <div>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+            <thead class="table-head">
+                <tr>
+                    <th>Nombre del Producto</th>
+                    <th>Embalaje</th>
+                    <th>Unidad Medida</th>
+                    <th>Precio Lista</th>
+                    <th>Stock</th>
+                    <th>Cantidad</th>
+                    <th>Importe</th>
+
+                </tr>
+            </thead>
+            <tbody id="productAddedList">
+                @foreach (var product in Model.Products_Prices)
+                {
+                    var sum = product?.PriceList * product?.Quantity;
+                    <tr>
+                        <td>@product?.Product.Name</td>
+                        <td>@product?.Product.Packaging</td>
+                        @if (product.Product.UnitM != null)
+                        {
+                            <td>@product.Product.UnitM.Name</td>
+                        }
+                        else
+                        {
+                            <td>???</td>
+                        }
+                        <td>@product?.PriceList.ToString("C")</td>
+                        <td>@product?.Product.Stock</td>
+                        <td>@product?.Quantity</td>
+                        <td>@sum.Value.ToString("C")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        </div>
+        <!-- Mostrar el importe total -->
+        <div>
+            <h4 class="title">Importe Total: @total.ToString("C")</h4>
+        </div>
+    </div>
+}
+else
+{
+    <p class="notFound">No hay productos en esta orden.</p>
+}
+
+<div class="modal fade" id="confirmCloseModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">Confirmar Cierre de Orden</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body fw-bold">
+                <!-- Aquí se cargará el mensaje de confirmación dinámicamente -->
+                <p id="closeOrderMessage">¿Estás seguro de que deseas cerrar esta orden?</p>
+            </div>
+            <div class="modal-footer two-grid">
+                <form asp-area="" asp-controller="ProviderOrder" asp-action="CloseOrder" asp-route-providerId="@Model.Provider.Id" method="post">
+                    <button type="submit" class="conf-button">
+                        <span class="text">Confirmar</span>
+                    </button>
+                </form>
+                <button type="button" class="cls-btn cls-btn-1" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>

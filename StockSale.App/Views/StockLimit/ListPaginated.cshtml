@@ -1,0 +1,149 @@
+﻿@model PaginatedProviderProductsViewModel
+
+@{
+    int nextPage = ViewBag.PageNumber + 1;
+    int prevPage = ViewBag.PageNumber - 1;
+}
+
+<h1 class="title mb-4">Productos a Pedir</h1>
+@if (Model.ProvidersWithProducts != null && Model.ProvidersWithProducts.Any())
+{
+    @foreach (var provider in Model.ProvidersWithProducts)
+    {
+        <div class="provider-section">
+            <h2 class="provider-name mb-4">
+                <button class="conf-button w-50" data-bs-toggle="collapse" data-bs-target="#products-@provider.ProviderName.Replace(" ", "-")">
+                    <span class="text">@provider.ProviderName</span>
+                </button>
+            </h2>
+
+            <div id="products-@provider.ProviderName.Replace(" ", "-")" class="collapse table-responsive">
+                @if (provider.Products.Data.Any())
+                {
+                    <table class="table table-bordered table-hover">
+                        <thead class="table-head">
+                            <tr>
+                                <th>N° Producto</th>
+                                <th>Nombre</th>
+                                <th>Packaging</th>
+                                <th>Stock</th>
+                                <th>Precio Lista</th>
+                                <th>Precio Venta</th>
+                                <th>Unidad Medida</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var product in provider.Products.Data)
+                            {
+                                <tr>
+                                    <td>@product.NProduct.ToString("D4")</td>
+                                    <td>@product.Name</td>
+                                    <td>@product.Packaging</td>
+                                    <td>@product.Stock</td>
+                                    <td>@product.List_Price.ToString("C")</td>
+                                    <td>@product.Sell_Price.ToString("C")</td>
+                                    @if (product.UnitM != null)
+                                    {
+                                        <td>@product.UnitM.Name</td>
+                                    }
+                                    else
+                                    {
+                                        <td>Desconocida</td>
+                                    }
+                                    <td>
+                                        <form>
+                                            <button class="go-button" type="submit" asp-action="Edit" asp-route-id="@product.Id">
+                                                Detalles
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                    <!-- Paginación por proveedor -->
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination">
+                            <!-- Botón "Anterior" -->
+                            <li class="page-item @(provider.Products.PageNumber == 1 ? "disabled" : "")">
+                                <form method="get" action="/StockLimit/ListPaginated" style="display: inline;">
+                                    <input type="hidden" name="pageNumber" value="@prevPage">
+                                    <input type="hidden" name="pageSize" value="@ViewBag.PageSize">
+                                    <input type="hidden" name="sortBy" value="@ViewBag.SortBy">
+                                    <input type="hidden" name="sortDirection" value="@ViewBag.SortDirection">
+                                    <button type="submit" class="button-3d">
+                                        <div class="button-top">
+                                            <span class="material-icons">❮</span>
+                                        </div>
+                                        <div class="button-bottom"></div>
+                                        <div class="button-base"></div>
+                                    </button>
+                                </form>
+                            </li>
+
+                            <!-- Páginas visibles con elipsis -->
+                            @for (int i = 0; i < ViewBag.VisiblePages.Count; i++)
+                            {
+                                int currentPage = ViewBag.VisiblePages[i];
+
+                                // Mostrar elipsis antes de las páginas si es necesario
+                                if (i > 0 && currentPage > ViewBag.VisiblePages[i - 1] + 1)
+                                {
+                                    <li class="page-item disabled">
+                                        <button class="button-3d" disabled>
+                                            <div class="button-top">
+                                                ...
+                                            </div>
+                                            <div class="button-bottom"></div>
+                                            <div class="button-base"></div>
+                                        </button>
+                                    </li>
+                                }
+
+                                // Mostrar el botón de la página
+                                <li class="page-item @(provider.Products.PageNumber == currentPage ? "active" : "")">
+                                    <form method="get" action="/StockLimit/ListPaginated" style="display: inline;">
+                                        <input type="hidden" name="pageNumber" value="@currentPage">
+                                        <input type="hidden" name="pageSize" value="@ViewBag.PageSize">
+                                        <input type="hidden" name="sortBy" value="@ViewBag.SortBy">
+                                        <input type="hidden" name="sortDirection" value="@ViewBag.SortDirection">
+                                        <button type="submit" class="button-3d">
+                                            <div class="button-top">
+                                                @currentPage
+                                            </div>
+                                            <div class="button-bottom"></div>
+                                            <div class="button-base"></div>
+                                        </button>
+                                    </form>
+                                </li>
+                            }
+
+                            <!-- Botón "Siguiente" -->
+                            <li class="page-item @(provider.Products.PageNumber == provider.Products.TotalPages ? "disabled" : "")">
+                                <form method="get" action="/StockLimit/ListPaginated" style="display: inline;">
+                                    <input type="hidden" name="pageNumber" value="@nextPage">
+                                    <input type="hidden" name="pageSize" value="@ViewBag.PageSize">
+                                    <input type="hidden" name="sortBy" value="@ViewBag.SortBy">
+                                    <input type="hidden" name="sortDirection" value="@ViewBag.SortDirection">
+                                    <button type="submit" class="button-3d">
+                                        <div class="button-top">
+                                            <span class="material-icons">❯</span>
+                                        </div>
+                                        <div class="button-bottom"></div>
+                                        <div class="button-base"></div>
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </nav>
+                        }
+            </div>
+        </div>
+    }
+}
+else
+{
+    <p class="notFound">No hay productos al límite.</p>
+}

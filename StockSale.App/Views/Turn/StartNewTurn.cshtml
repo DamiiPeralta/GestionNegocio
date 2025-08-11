@@ -1,0 +1,14 @@
+﻿@model StockSale.App.Models.ViewModels.TurnViewModel
+
+<h1>Iniciar Nuevo Turno</h1>
+
+<form asp-action="StartNewTurn" method="post" class="mb-4">
+    <div class="mb-3">
+        <label asp-for="Initial_Cash" class="form-label">Efectivo Inicial</label>
+        <input asp-for="Initial_Cash" class="form-control" placeholder="Ingrese el efectivo inicial" type="number" step="0.01" required />
+        <span asp-validation-for="Initial_Cash" class="text-danger"></span>
+    </div>
+    <button type="submit" class="conf-button">
+        <span class="text">Iniciar Turno</span>
+    </button>
+</form>

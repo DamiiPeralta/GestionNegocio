@@ -1,0 +1,148 @@
+﻿@model List<StockSale.App.Models.Domain.ProviderOrder>
+
+@{
+    int nextPage = ViewBag.PageNumber + 1;
+    int prevPage = ViewBag.PageNumber - 1;
+}
+
+<div>
+        <h1 class="title mb-4">Ordenes de Proveedores</h1>
+</div>
+
+<div>
+    @if (Model != null && Model.Any())
+    {
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead class="table-head">
+                <tr>
+                    <th>N° Orden</th>
+                    <th>Fecha</th>
+                    <th>Importe</th>
+                    <th>Proveedor</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var providerOrder in Model)
+                {
+                    <tr>
+                        <td>@providerOrder.NProviderOrder.ToString("D4")</td>
+                        <td>@providerOrder.Date.ToString("dd/MM/yyyy")</td>
+
+                        <td>@providerOrder.Import.ToString("C")</td>
+                        @if (providerOrder.Provider != null)
+                        {
+                            <td>@providerOrder.Provider.Name</td>
+                        }
+                        else
+                        {
+                            <td>???</td>
+                        }
+                            <td>
+                                <form>
+                                    <button class="go-button" type="submit"
+                                            asp-area=""
+                                            asp-controller="ProviderOrder"
+                                            asp-action="Details"
+                                            asp-route-id="@providerOrder.Id">
+                                        <svg viewBox="0 0 24 24" class="arr-2" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"></path>
+                                        </svg>
+                                        <span class="text">Detalles</span>
+                                        <span class="circle"></span>
+                                        <svg viewBox="0 0 24 24" class="arr-1" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"></path>
+                                        </svg>
+                                    </button>
+                                </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        </div>
+
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <!-- Botón "Anterior" -->
+                <li class="page-item @(ViewBag.PageNumber == 1 ? "disabled" : "")">
+                    <form method="get" action="/ProviderOrder/ListByProvider" style="display: inline;">
+                        <input type="hidden" name="id" value="@ViewBag.ProviderId">
+                        <input type="hidden" name="pageNumber" value="@prevPage">
+                        <input type="hidden" name="pageSize" value="@ViewBag.PageSize">
+                        <input type="hidden" name="sortBy" value="@ViewBag.SortBy">
+                        <input type="hidden" name="sortDirection" value="@ViewBag.SortDirection">
+                        <button type="submit" class="button-3d">
+                            <div class="button-top">
+                                <span class="material-icons">❮</span>
+                            </div>
+                            <div class="button-bottom"></div>
+                            <div class="button-base"></div>
+                        </button>
+                    </form>
+                </li>
+
+                <!-- Páginas visibles -->
+                @for (int i = 0; i < ViewBag.VisiblePages.Count; i++)
+                {
+                    int currentPage = ViewBag.VisiblePages[i];
+
+                    if (i > 0 && currentPage > ViewBag.VisiblePages[i - 1] + 1)
+                    {
+                        <!-- Mostrar elipsis -->
+                        <li class="page-item disabled">
+                            <button class="button-3d" disabled>
+                                <div class="button-top">
+                                    ...
+                                </div>
+                                <div class="button-bottom"></div>
+                                <div class="button-base"></div>
+                            </button>
+                        </li>
+                    }
+
+                    <li class="page-item @(ViewBag.PageNumber == currentPage ? "active" : "")">
+                        <form method="get" action="/ProviderOrder/ListByProvider" style="display: inline;">
+                            <input type="hidden" name="id" value="@ViewBag.ProviderId">
+                            <input type="hidden" name="pageNumber" value="@currentPage">
+                            <input type="hidden" name="pageSize" value="@ViewBag.PageSize">
+                            <input type="hidden" name="sortBy" value="@ViewBag.SortBy">
+                            <input type="hidden" name="sortDirection" value="@ViewBag.SortDirection">
+                            <button type="submit" class="button-3d">
+                                <div class="button-top">
+                                    @currentPage
+                                </div>
+                                <div class="button-bottom"></div>
+                                <div class="button-base"></div>
+                            </button>
+                        </form>
+                    </li>
+                }
+
+                <!-- Botón "Siguiente" -->
+                <li class="page-item @(ViewBag.PageNumber == ViewBag.TotalPages ? "disabled" : "")">
+                    <form method="get" action="/ProviderOrder/ListByProvider" style="display: inline;">
+                        <input type="hidden" name="id" value="@ViewBag.ProviderId">
+                        <input type="hidden" name="pageNumber" value="@nextPage">
+                        <input type="hidden" name="pageSize" value="@ViewBag.PageSize">
+                        <input type="hidden" name="sortBy" value="@ViewBag.SortBy">
+                        <input type="hidden" name="sortDirection" value="@ViewBag.SortDirection">
+                        <button type="submit" class="button-3d">
+                            <div class="button-top">
+                                <span class="material-icons">❯</span>
+                            </div>
+                            <div class="button-bottom"></div>
+                            <div class="button-base"></div>
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+    }
+    else
+    {
+        <p class="notFound">No hay ordenes de este proveedor.</p>
+    }
+
+</div>

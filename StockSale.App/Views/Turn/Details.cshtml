@@ -1,0 +1,181 @@
+﻿@model StockSale.App.Models.ViewModels.TurnDetailsViewModel
+
+@{
+    ViewData["Title"] = "Detalles";
+    // Importe, Descuentos y Total Final
+    var total = 0f;
+    var totalDiscount = 0f;
+    var finalTotal = 0f;
+    // Clientes
+    int totalClients = 0;
+    int totalParticulars = 0;
+    // Deudas
+    var todayDebt = 0f;
+    var todayPays = 0f;
+    var todayTotalDebt = 0f;
+    // Ingresos y Egresos
+    var totalIncome = 0;
+    var totalOutcome = 0;
+    var totalIncomeOutcome = 0f;
+    // Fiados
+    var totalFiados = 0f;
+    var totalFiadosPay = 0f;
+    // Caja
+    var initialCashBox = 0f;
+    var finalCashBox = 0f;
+
+    if(Model != null)
+    {
+        // Importe, Descuentos y Total Final
+        foreach(var order in Model.Turn.OrderBuys)
+        {
+            total += order.Import;
+            totalDiscount += order.TotalDiscount;
+            finalTotal += order.FinalTotal;
+        }
+        // Clientes
+        foreach (var order in Model.Turn.OrderBuys)
+        {
+            var client = order.Client;
+            if (client != null)
+            {
+                ++totalClients;
+            }
+            else
+            {
+                ++totalParticulars;
+            }
+        }
+        // Deudas
+        foreach (var debt in Model.Debts)
+        {
+            if (debt.Status)
+            {
+                todayDebt += debt.Import; // Suma las deudas activas
+            }
+            else
+            {
+                todayPays += debt.Import; // Suma las deudas pagadas
+            }
+        }
+        // Calcula el total de deudas
+        todayTotalDebt = todayDebt - todayPays;
+
+        // Fiados
+        foreach (var fiados in Model.Fiados)
+        {
+            if(fiados.LastDatePay.Date == Model.Turn.Date.Date && fiados.IsPay == true)
+            {
+                totalFiadosPay += fiados.Import;
+            }
+            else if(fiados.IsPay == false)
+            {
+                totalFiados += fiados.Import;
+            }
+        }
+        var totalFiadosTodayCash = totalFiadosPay - totalFiados;
+
+        // CashFlow
+        foreach (var cashFlow in Model.CashFlows)
+        {
+            if (cashFlow.Income)
+            {
+                totalIncome += cashFlow.Import;
+            }
+            else
+            {
+                totalOutcome += cashFlow.Import;
+            }
+        };
+        totalIncomeOutcome = totalIncome - totalOutcome;
+
+        // Variables: totalIncomeOutcome, totalFiadosTodayCash, initialCashBox, todayTotalDebt
+        initialCashBox = Model.Turn.Initial_Cash;
+        finalCashBox = initialCashBox += totalIncomeOutcome;
+        finalCashBox = finalCashBox += totalFiadosTodayCash;
+        finalCashBox = finalCashBox += todayTotalDebt;
+        finalCashBox = finalCashBox += finalTotal;
+    }
+}
+
+<div>
+    <h1 class="title mb-4">Detalles</h1>
+    @if (Model != null)
+        {
+    <table class="table table-bordered table-hover mb-4">
+
+        <thead class="table-head">
+            <tr>
+                <th>N° Orden</th>
+                <th>Cliente</th>
+                <th>Descuento</th>
+                <th>Importe</th>
+                <th>Total Final</th>
+            </tr>
+        </thead>
+        
+            <tbody>
+
+                @foreach (var order in Model.Turn.OrderBuys)
+                {
+                    <tr>
+                        <td>@order.NOrderBuy.ToString("D4")</td>
+                        @if (order.Client != null)
+                        {
+                            <td>@order.Client.Name</td>
+                        }
+                        else
+                        {
+                            <td>Particular</td>
+                        }
+                        <td>%@order.Discount</td>
+                        <td>@order.Import.ToString("C")</td>
+                        <td>@order.FinalTotal.ToString("C")</td>
+                    </tr>
+}
+</tbody>
+</table>
+<h1 class="title mb-4">Detalles del Día</h1>
+<div class="three-grid">
+    <div class="card">
+        <h2>Clientes</h2>
+        <h5>Total Clientes = @totalClients.ToString()</h5>
+        <h5>Total Particulares = @totalParticulars.ToString()</h5>
+    </div>
+    <div class="card">
+        <h2>Fiados</h2>
+        <h5>Fiados = @totalFiados.ToString("C")</h5>
+        <h5>Fiados Pagados = @totalFiadosPay.ToString("C")</h5>
+    </div>
+    <div class="card">
+        <h2>Cuentas Corrientes</h2>
+        <h5>Deudas Clientes = @todayDebt.ToString("C")</h5>
+        <h5>Deudas Pagadas = @todayPays.ToString("C")</h5>
+        <h5>Total Deudas = @todayTotalDebt.ToString("C")</h5>
+    </div>
+</div>
+<div class="three-grid">
+    <div class="card">
+        <h2>Ingresos y Egresos</h2>
+        <h5>Ingresos = @totalIncome.ToString("C")</h5>
+        <h5>Egresos = @totalOutcome.ToString("C")</h5>
+    </div>
+    <div class="card">
+        <h2>Resultado de Ordenes</h2>
+        <h5>Importe = @total.ToString("C")</h5>
+        <h5>Descuentos Totales: @totalDiscount.ToString("C")</h5>
+        <h5>Total Final = @finalTotal.ToString("C")</h5>
+    </div>
+    <div class="card">
+        <h2>Total Final</h2>
+        <h5>Caja Inicial = @initialCashBox.ToString("C")</h5>
+        <h5>Caja Final = @finalCashBox.ToString("C")</h5>
+    </div>
+</div>
+
+    }
+    else
+    {
+        <p class="notFound">Este turno no existe.</p>
+    }
+</div>

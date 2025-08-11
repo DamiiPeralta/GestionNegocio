@@ -1,0 +1,145 @@
+﻿@model StockSale.App.Models.ViewModels.ActualOrderViewModel
+
+@{
+    ViewData["Title"] = "Orden de Compra";
+    var total = 0f;
+    if (Model.Products_Prices != null)
+    {
+        foreach (var product in Model.Products_Prices)
+        {
+            var sumtotal = product.PriceSell * product.Quantity;
+            total += sumtotal;
+        }
+    }
+}
+
+<h2>Lista de Productos</h2>
+
+<!-- Buscador -->
+<form method="get" asp-action="AddProductsToOrder" class="mb-3 d-flex gap-2 align-items-center">
+    <input type="text" name="SearchTerm" value="@Model.SearchTerm" placeholder="Buscar productos por nombre o código de barra..." class="form-control" />
+    <button type="submit" class="btn btn-primary">Buscar</button>
+</form>
+
+<!-- Tabla de productos -->
+<div class="table-responsive">
+    <table class="table table-bordered table-hover">
+        <thead class="table-head">
+            <tr>
+                <th>Nombre del Producto</th>
+                <th>Proveedor</th>
+                <th>Unidad Medida</th>
+                <th>Stock</th>
+                <th>Precio Lista</th>
+                <th>Precio Venta</th>
+                <th>Cantidad</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model.Products)
+            {
+                <tr>
+                    <td>@product?.Name</td>
+                    <td>@(product?.Provider?.Name ?? "???")</td>
+                    <td>@product?.UnitM.Name</td>
+                    <td>@product?.Stock</td>
+                    <td>@product?.List_Price.ToString("C")</td>
+                    <td>@product?.Sell_Price.ToString("C")</td>
+                    <td>
+                        <form asp-action="AddProductsToOrder" method="post" class="d-flex gap-1 align-items-center">
+                            <input type="number" name="Quantity" min="1" value="1" class="form-control" style="width: 70px;" />
+                            <input type="hidden" name="SelectedProductId" value="@product?.Id" />
+                            @if (product.Stock == 0)
+                            {
+                                <button class="btn btn-primary disabled" disabled>Añadir</button>
+                            }
+                            else
+                            {
+                                <button type="submit" class="btn btn-primary">Añadir</button>
+                            }
+                        </form>
+                    </td>
+                    <td>
+                        <form asp-area="" asp-controller="Product" asp-action="Edit" asp-route-id="@product.Id" method="get">
+                            <button class="go-button" type="submit">
+                                <svg viewBox="0 0 24 24" class="arr-2" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"></path>
+                                </svg>
+                                <span class="text">Detalles</span>
+                                <span class="circle"></span>
+                                <svg viewBox="0 0 24 24" class="arr-1" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"></path>
+                                </svg>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Paginación -->
+@if (Model.TotalPages > 1)
+{
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item @(Model.PageNumber == 1 ? "disabled" : "")">
+                <a class="page-link" href="@Url.Action("AddProductsToOrder", new { PageNumber = Model.PageNumber - 1, SearchTerm = Model.SearchTerm })">Anterior</a>
+            </li>
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                    <a class="page-link" href="@Url.Action("AddProductsToOrder", new { PageNumber = i, SearchTerm = Model.SearchTerm })">@i</a>
+                </li>
+            }
+            <li class="page-item @(Model.PageNumber == Model.TotalPages ? "disabled" : "")">
+                <a class="page-link" href="@Url.Action("AddProductsToOrder", new { PageNumber = Model.PageNumber + 1, SearchTerm = Model.SearchTerm })">Siguiente</a>
+            </li>
+        </ul>
+    </nav>
+}
+
+<h1>Productos Añadidos</h1>
+@if (Model.Products_Prices != null && Model.Products_Prices.Count > 0)
+{
+    <div class="table-responsive">
+        <table class="table">
+            <thead class="table-head">
+                <tr>
+                    <th>Nombre del Producto</th>
+                    <th>Precio Unitario</th>
+                    <th>Cantidad</th>
+                    <th>Importe</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var productPrice in Model.Products_Prices)
+                {
+                    <tr>
+                        <td>@productPrice?.Product.Name</td>
+                        <td>@productPrice?.PriceSell.ToString("C")</td>
+                        <td>@productPrice?.Quantity</td>
+                        <td>@(productPrice?.PriceSell * productPrice?.Quantity)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+        <h4 class="title">Importe Total: @total.ToString("C")</h4>
+    </div>
+}
+else
+{
+    <p class="notFound">No hay productos añadidos.</p>
+}
+
+@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+{
+    <script>
+        alert('@ViewBag.ErrorMessage');
+    </script>
+}

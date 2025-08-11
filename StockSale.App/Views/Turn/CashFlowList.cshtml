@@ -1,0 +1,184 @@
+﻿@model List<StockSale.App.Models.Domain.CashFlow>
+
+@{
+    int nextPage = ViewBag.PageNumber + 1;
+    int prevPage = ViewBag.PageNumber - 1;
+    int totalIncome = 0;
+    int totalOutcome = 0;
+
+    foreach (var cashFlow in Model)
+    {
+        if (cashFlow.Income)
+            totalIncome += cashFlow.Import;
+        else
+            totalOutcome += cashFlow.Import;
+    }
+}
+
+<h1 class="title">Ingresos y Egresos</h1>
+
+<!-- Comentario Global -->
+<div class="mb-3">
+    <input type="text" id="globalComment" class="form-control" placeholder="Comentario (opcional para ambos)" />
+</div>
+
+<div class="two-grid">
+    <!-- Formulario Ingreso -->
+    <form method="post" asp-action="AddCashFlow" asp-route-isIncome="true" id="addIncomeForm" class="double-grid">
+        <input type="number" id="incomePayment" name="import" class="input-left" placeholder="Importe Ingreso" />
+        <input type="hidden" name="comment" />
+        <button class="new-button add-button w-100" type="submit" onclick="submitWithComment(event, 'addIncomeForm', 'incomePayment')">
+            <span class="new-button__text">Agregar Ingreso</span>
+            <span class="new-button__icon">
+                <svg class="svg" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24">
+                    <line x1="12" x2="12" y1="5" y2="19" />
+                    <line x1="5" x2="19" y1="12" y2="12" />
+                </svg>
+            </span>
+        </button>
+    </form>
+
+    <!-- Formulario Egreso -->
+    <form method="post" asp-action="AddCashFlow" asp-route-isIncome="false" id="removeIncomeForm" class="double-grid">
+        <input type="number" id="expensePayment" name="import" class="input-left" placeholder="Importe Egreso" />
+        <input type="hidden" name="comment" />
+        <button class="new-button remove-button w-100" type="submit" onclick="submitWithComment(event, 'removeIncomeForm', 'expensePayment')">
+            <span class="new-button__text">Agregar Egreso</span>
+            <span class="new-button__icon">
+                <svg class="svg" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24">
+                    <line x1="5" x2="19" y1="12" y2="12" />
+                </svg>
+            </span>
+        </button>
+    </form>
+</div>
+
+<!-- Buscador por Fecha -->
+<form method="get">
+    <div class="input-group mb-4">
+        <input class="form-control" type="date" name="searchString" placeholder="Buscar por fecha..." value="@Context.Request.Query["searchString"]" />
+        <button type="submit" class="btn-submit">Buscar</button>
+    </div>
+</form>
+
+<h1 class="title mb-4">Estado de Cuenta</h1>
+<div class="two-grid">
+    <h2 class="m-auto">Total Ingreso: @totalIncome.ToString("C")</h2>
+    <h2 class="m-auto">Total Egreso: @totalOutcome.ToString("C")</h2>
+</div>
+
+<!-- Tabla -->
+@if (Model != null && Model.Any())
+{
+    <div class="table-responsive mt-4">
+        <table class="table table-bordered table-hover">
+            <thead class="table-head">
+                <tr>
+                    <th>Fecha</th>
+                    <th>Importe</th>
+                    <th>Tipo</th>
+                    <th>Comentario</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var cashFlow in Model)
+                {
+                    <tr>
+                        <td>@cashFlow.Date.ToShortDateString()</td>
+                        <td>@cashFlow.Import.ToString("C")</td>
+                        <td class="@(cashFlow.Income ? "text-success fw-bold" : "text-danger fw-bold")">
+                            @(cashFlow.Income ? "Ingreso" : "Egreso")
+                        </td>
+                        <td>@cashFlow.Comment</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Paginación -->
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <li class="page-item @(ViewBag.PageNumber == 1 ? "disabled" : "")">
+                <form method="get" action="/Turn/CashFlowList" style="display:inline;">
+                    <input type="hidden" name="pageNumber" value="@prevPage" />
+                    <input type="hidden" name="pageSize" value="@ViewBag.PageSize" />
+                    <input type="hidden" name="sortBy" value="@ViewBag.SortBy" />
+                    <input type="hidden" name="sortDirection" value="@ViewBag.SortDirection" />
+                    <button type="submit" class="button-3d">
+                        <div class="button-top">❮</div>
+                        <div class="button-bottom"></div>
+                        <div class="button-base"></div>
+                    </button>
+                </form>
+            </li>
+
+            @for (int i = 0; i < ViewBag.VisiblePages.Count; i++)
+            {
+                int currentPage = ViewBag.VisiblePages[i];
+
+                if (i > 0 && currentPage > ViewBag.VisiblePages[i - 1] + 1)
+                {
+                    <li class="page-item disabled">
+                        <button class="button-3d" disabled>
+                            <div class="button-top">...</div>
+                            <div class="button-bottom"></div>
+                            <div class="button-base"></div>
+                        </button>
+                    </li>
+                }
+
+                <li class="page-item @(ViewBag.PageNumber == currentPage ? "active" : "")">
+                    <form method="get" action="/Turn/CashFlowList" style="display:inline;">
+                        <input type="hidden" name="pageNumber" value="@currentPage" />
+                        <input type="hidden" name="pageSize" value="@ViewBag.PageSize" />
+                        <input type="hidden" name="sortBy" value="@ViewBag.SortBy" />
+                        <input type="hidden" name="sortDirection" value="@ViewBag.SortDirection" />
+                        <button type="submit" class="button-3d">
+                            <div class="button-top">@currentPage</div>
+                            <div class="button-bottom"></div>
+                            <div class="button-base"></div>
+                        </button>
+                    </form>
+                </li>
+            }
+
+            <li class="page-item @(ViewBag.PageNumber == ViewBag.TotalPages ? "disabled" : "")">
+                <form method="get" action="/Turn/CashFlowList" style="display:inline;">
+                    <input type="hidden" name="pageNumber" value="@nextPage" />
+                    <input type="hidden" name="pageSize" value="@ViewBag.PageSize" />
+                    <input type="hidden" name="sortBy" value="@ViewBag.SortBy" />
+                    <input type="hidden" name="sortDirection" value="@ViewBag.SortDirection" />
+                    <button type="submit" class="button-3d">
+                        <div class="button-top">❯</div>
+                        <div class="button-bottom"></div>
+                        <div class="button-base"></div>
+                    </button>
+                </form>
+            </li>
+        </ul>
+    </nav>
+}
+else
+{
+    <p class="notFound mt-4">No hay ingresos ni egresos.</p>
+}
+
+<!-- Script para manejar el comentario global -->
+<script>
+    function submitWithComment(event, formId, inputId) {
+        event.preventDefault();
+
+        const form = document.getElementById(formId);
+        const importValue = document.getElementById(inputId).value;
+        const comment = document.getElementById("globalComment").value;
+
+        if (importValue <= 0) {
+            alert("Por favor, ingresa un importe válido.");
+            return;
+        }
+
+        form.querySelector("input[name='comment']").value = comment;
+        form.submit();
+    }
+</script>

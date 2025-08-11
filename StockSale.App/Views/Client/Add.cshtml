@@ -1,0 +1,67 @@
+﻿@model StockSale.App.Models.ViewModels.AddClientRequest
+@{
+    // Lista de condiciones frente al IVA
+    var ivaConditions = new List<SelectListItem>
+    {
+        new SelectListItem { Value = "Responsable Inscripto", Text = "Responsable Inscripto" },
+        new SelectListItem { Value = "Monotributista", Text = "Monotributista" },
+        new SelectListItem { Value = "Exento", Text = "Exento" },
+        new SelectListItem { Value = "Consumidor Final", Text = "Consumidor Final" }
+    };
+}
+    <h1 class="title mb-4">Añadir Cliente</h1>
+<div class="py-2">
+    <form method="post">
+    <div class="two-grid">
+            <div class="inputBox">
+                <input type="text" id="name" asp-for="Name" required />
+                <span>Nombre</span>
+            </div>
+            <div class="inputBox">
+                <input type="text" id="email" asp-for="Email" required />
+                <span>Email</span>
+            </div>
+            <div class="inputBox">
+                <input type="text" id="dni" asp-for="Dni" required />
+                <span for="dni">DNI</span>
+            </div>
+            <div class="inputBox">
+                <input type="text" id="phone" asp-for="Phone" required />
+                <span>Teléfono</span>
+            </div>
+            <div class="inputBox">
+                <input type="text" id="cuil_t" asp-for="Cuil_t" required/>
+                <span>Cuil-T</span>
+            </div>
+            <div class="inputBox">
+                <input type="text" id="company" asp-for="Company" required />
+                <span>Empresa</span>
+            </div>
+            <div class="inputBox">
+                <select id="Condition_Iva" asp-for="Condition_Iva" asp-items="ivaConditions" required>
+                    <option value="" disabled selected></option>
+                </select>
+                <span>Condición Frente al IVA</span>
+            </div>
+            <div class="inputBox">
+                <input type="number" id="discount" asp-for="Discount" min="0" max="100" required />
+                <span>Descuento</span>
+            </div>
+    </div>
+        
+        <div class="btn-center">
+            <button type="submit" class="conf-button w-50">
+                <span class="text">Guardar</span>
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+        document.getElementById("discount").addEventListener("input", function () {
+        if (this.value === "") {
+            this.value = null;
+        }
+    });
+
+</script>

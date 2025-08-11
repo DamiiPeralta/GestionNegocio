@@ -1,0 +1,37 @@
+[
+  {
+    "NProvider": 1,
+    "Name": "Ferreteria Los Clavos",
+    "Phone": "123-456-7890",
+    "Email": "contacto@losclavos.com",
+    "Company": "Los Clavos S.A."
+  },
+  {
+    "NProvider": 2,
+    "Name": "Distribuidora de Tornillos",
+    "Phone": "987-654-3210",
+    "Email": "ventas@tornillosdist.com",
+    "Company": "Tornillos Distribuci�n SRL"
+  },
+  {
+    "NProvider": 3,
+    "Name": "Herramientas Pro",
+    "Phone": "456-789-0123",
+    "Email": "info@herramientaspro.com",
+    "Company": "Herramientas Pro Ltda."
+  },
+  {
+    "NProvider": 4,
+    "Name": "Materiales Electricos Power",
+    "Phone": "321-654-0987",
+    "Email": "soporte@power.com",
+    "Company": "Power S.A."
+  },
+  {
+    "NProvider": 5,
+    "Name": "Pinturas y Recubrimientos ColorMix",
+    "Phone": "789-012-3456",
+    "Email": "pedidos@colormix.com",
+    "Company": "ColorMix Internacional"
+  }
+]

@@ -1,0 +1,574 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - StockSale.App</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/StockSale.App.styles.css" asp-append-version="true" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <style>
+        a {
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: white; /* O el color que prefieras */
+            text-decoration: none; /* Elimina el subrayado si lo tiene */
+        }
+
+        body {
+            background-color: #F0F3FF;
+        }
+
+        th {
+            text-align: center;
+            font-family: "Roboto", sans-serif;
+            font-weight: bold;
+            font-style: normal;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+
+        td {
+            text-align: center;
+            vertical-align: middle;
+            font-family: "Roboto", sans-serif;
+            font-weight: 300;
+            font-style: normal;
+        }
+
+        .bg-money
+        {
+            background-color: seagreen;
+            border-radius: 0.5rem;
+            color: antiquewhite;
+            font-family: "Roboto", sans-serif;
+            font-weight: 500;
+            font-size: 1rem;
+            font-style: normal;
+        }
+
+        .bg-card
+        {
+            background-color: cornflowerblue;
+            border-radius: 0.5rem;
+            color: antiquewhite;
+            font-family: "Roboto", sans-serif;
+            font-weight: 500;
+            font-size: 1rem;
+            font-style: normal;
+        }
+
+        .btn-center {
+            display:flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 1rem;
+            margin-bottom: 2rem;
+            font-family: "Roboto", sans-serif;
+            font-style: normal;
+            font-weight: 400;
+        }
+
+        .btn-danger {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #A63D40;
+            font-family: "Roboto", sans-serif;
+            font-style: normal;
+            font-weight: 400;
+            height: 3rem;
+            border-radius: 2rem;
+            border-style: inset outset;
+            border-width: 3px 3px 3px;
+        }
+
+        .btn-success {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #5B8C5A;
+            font-family: "Roboto", sans-serif;
+            font-style: normal;
+            font-weight: 400;
+            height: 3rem;
+            border-radius: 2rem;
+            border-style: inset outset;
+            border-width: 3px 3px 3px;
+            width: 100%;
+        }
+
+        .btn-dark {
+            background-color: #ADB9E3;
+            border-width: 3px 3px 3px;
+            border-style: inset outset;
+            border-color: #55618F;
+            border-radius: 1rem;
+            color: black;
+            font-family: "Roboto", sans-serif;
+            font-style: normal;
+            font-weight: 400;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: auto;
+            height: 3rem;
+            width: 100%;
+        }
+
+            .btn-dark:hover, .btn-submit:hover, .btn-layout:hover, .page-btn:hover {
+                background-color: #CED7F7;
+                border-color: #0056b3;
+                color: black;
+            }
+
+        .btn-details {
+            background-color: #5EB1BF;
+            border-width: 3px 3px 3px;
+            border-style: inset outset;
+            border-color: #CDEDF6;
+            border-radius: 1rem;
+            color: black;
+            font-family: "Roboto", sans-serif;
+            font-style: normal;
+            font-weight: 400;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: auto;
+            height: 3rem;
+            width: 100%;
+        }
+
+        .btn-details:hover{
+                background-color: #C4F3FB;
+                border-color: #86E5FF;
+            }
+
+        .btn-layout {
+            background-color: #ADB9E3;
+            border-width: 3px 3px 3px;
+            border-style: inset outset;
+            border-color: #55618F;
+            border-radius: 1rem;
+            color: black;
+            font-family: "Roboto", sans-serif;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 3rem;
+            width: 9rem;
+        }
+
+        .btn-submit {
+            background-color: #ADB9E3;
+            border: 1rem;
+            border: solid 2px;
+            border-color: #55618F;
+            border-radius: 2rem;
+            color: black;
+            font-family: "Roboto", sans-serif;
+            font-style: normal;
+            font-weight: 300;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            width: 25%;
+            height: 3rem;
+        }
+
+        .card {
+            background-color: cornflowerblue;
+            border-radius: 1rem;
+            display: flex;
+            flex-direction: column;
+            padding: 1rem;
+            text-align: start;
+        }
+
+        .double-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-column-gap: 1rem;
+            grid-row-gap: 1rem;
+            justify-content: center;
+            align-items: center;
+            margin: 2rem;
+        }
+
+        .footer {
+            background-color: #1446A0;
+            color: #ffffff;
+        }
+
+        .form-check-label
+        {
+            font-family: "Roboto", sans-serif;
+            font-style: normal;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .four-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: auto auto;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .input-left {
+            height: 3rem;
+            width: 100%;
+        }
+
+        .input-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+            .input-group .form-control {
+                display: block;
+                width: 100%;
+                padding: 1rem 1rem 1rem 2.5rem;
+                font-size: 1.125rem; /* 18px */
+                color: #1f2937; /* text-gray-900 */
+                border: 1px solid #d1d5db; /* border-gray-300 */
+                border-radius: 0.5rem; /* rounded-lg */
+                background-color: #f9fafb; /* bg-gray-50 */
+                outline: none;
+                transition: border-color 0.2s, box-shadow 0.2s;
+            }
+
+                .input-group .form-control:focus {
+                    border-color: #3b82f6; /* focus:border-blue-500 */
+                    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.3); /* focus:ring-blue-500 */
+                }
+
+                .input-group .form-control::placeholder {
+                    color: #9ca3af; /* text-gray-400 */
+                }
+
+            .input-group .btn-submit {
+                position: absolute;
+                right: 10px;
+                bottom: 50%;
+                transform: translateY(50%);
+                padding: 0.5rem 1rem;
+                font-size: 0.875rem; /* 14px */
+                font-weight: 500;
+                color: #fff; /* text-white */
+                background-color: #1d4ed8; /* bg-blue-700 */
+                border: 1px solid #1d4ed8; /* border-blue-700 */
+                border-radius: 0.5rem; /* rounded-lg */
+                cursor: pointer;
+                transition: background-color 0.2s, box-shadow 0.2s;
+                z-index: 10;
+            }
+
+                .input-group .btn-submit:hover {
+                    background-color: #1e40af; /* hover:bg-blue-800 */
+                }
+
+                .input-group .btn-submit:focus {
+                    outline: none;
+                    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.3); /* focus:ring-blue-300 */
+                }
+
+                .input-group .btn-submit svg {
+                    width: 1rem; /* 16px */
+                    height: 1rem; /* 16px */
+                    fill: currentColor;
+                }
+
+        .navbar {
+            background-color: #1446A0;
+        }
+
+        .navbar-brand, .nav-link {
+            color: #ffffff !important;
+        }
+
+        #productList {
+            table-layout: fixed;
+            width: 100%;
+        }
+
+            #productList td {
+                white-space: nowrap;
+                width: 12.5%;
+            }
+
+        .notFound {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: "Roboto", sans-serif;
+            font-style: normal;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .button-3d {
+            -webkit-appearance: none;
+            appearance: none;
+            position: relative;
+            border-width: 0;
+            padding: 0 8px;
+            min-width: 4rem;
+            min-height: 4rem;
+            box-sizing: border-box;
+            background: transparent;
+            font: inherit;
+            cursor: pointer;
+            border-radius: 20px;
+            text-decoration:none;
+            transform: scale(0.8);
+            transform-origin: center;
+        }
+
+        .button-top {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
+            padding: 8px 16px;
+            transform: translateY(0);
+            color: #fff;
+            background-image: linear-gradient(145deg, #6a11cb, #2575fc);
+            text-shadow: 0 -1px rgba(0, 0, 0, 0.25);
+            border-radius: 20px;
+            transition: transform 0.3s, border-radius 0.3s, background 10s;
+        }
+
+        .button-3d:active .button-top {
+            border-radius: 10px 10px 8px 8px / 8px;
+            transform: translateY(2px);
+            background-image: linear-gradient(145deg, #2575fc, #6a11cb);
+        }
+
+        .button-bottom {
+            position: absolute;
+            z-index: 1;
+            bottom: 4px;
+            left: 4px;
+            border-radius: 20px;
+            padding-top: 6px;
+            width: calc(100% - 8px);
+            height: calc(100% - 10px);
+            background-image: linear-gradient(145deg, #2575fc, #6a11cb);
+            box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.5);
+            transition: border-radius 0.2s, padding-top 0.2s;
+        }
+
+        .button-base {
+            position: absolute;
+            z-index: 0;
+            top: 4px;
+            left: 0;
+            border-radius: 20px;
+            width: 100%;
+            height: calc(100% - 4px);
+            background-color: rgba(0, 0, 0, 0.255);
+            box-shadow: 0 1px 1px 0 rgba(255, 255, 255, 0.75), inset 0 2px 2px rgba(0, 0, 0, 0.25);
+            transition: border-radius 0.2s, padding-top 0.2s;
+        }
+
+        .button-3d:active .button-bottom {
+            border-radius: 10px 10px 8px 8px / 8px;
+            padding-top: 0;
+        }
+
+        .button-3d:active .button-base {
+            border-radius: 10px 10px 8px 8px / 8px;
+        }
+
+        .data-table {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Dos columnas, cada una ocupando el 50% del espacio */
+            gap: 0; /* Sin espacio entre los elementos del grid */
+            justify-items: start; /* Alinear contenido al inicio de cada celda */
+            align-items: start; /* Alinear el contenido al inicio verticalmente */
+            width: 25%;
+        }
+
+            .page-item.disabled {
+                pointer-events: none;
+                opacity: 0.6;
+                cursor: not-allowed;
+                text-decoration: none;
+            }
+
+        .page-item.active .button-3d {
+            border-radius: 0; /* Quitar el redondeo */
+        }
+
+            .page-item.active .button-3d .button-top {
+                color: #fff;
+                text-shadow: 0 -1px rgba(0, 0, 0, 0.25);
+                border-radius: 0; /* Quitar el redondeo */
+                transition: none; /* Eliminar las transiciones */
+                box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.5); /* Sombras para mantener el efecto 3D */
+            }
+
+            .page-item.active .button-3d .button-bottom {
+                border-radius: 0; /* Quitar el redondeo */
+                transition: none; /* Eliminar las transiciones */
+            }
+
+            .page-item.active .button-3d .button-base {
+                background-color: rgba(79, 172, 254, 0.3); /* Azul claro */
+                border-radius: 0; /* Quitar el redondeo */
+                transition: none; /* Eliminar las transiciones */
+            }
+
+        .pagination {
+            gap: 0.2rem;
+        }
+
+        .search-form {
+            padding-left: 1rem;
+            width: 100%;
+        }
+
+        .site {
+            padding: 2rem;
+        }
+
+        .table {
+            border: solid 2px;
+            border-color: gray;
+        }
+
+        .table-head {
+            background-color: #1446A0;
+            border: solid 2px;
+            border-color: #0056b3;
+            color: white;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .tbody {
+            transition: background-color 0.5s ease;
+        }
+
+            .tbody:hover {
+                background-color: lightblue;
+            }
+
+        .text-grid {
+            display: flex;
+            flex-direction: column;
+            justify-self: end;
+        }
+
+        .title {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 100%;
+        }
+
+        .three-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: auto auto;
+            justify-self: center;
+            gap: 1rem;
+        }
+
+            .three-grid > .btn-layout,
+            .four-grid > .btn-layout {
+                justify-self: center;
+                width: 100%;
+            }
+        
+        .toggle-btn {
+            background-color: #8EB8E5;
+            border-width: 3px 3px 3px;
+            border-style: inset outset;
+            border-color: #55618F;
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: black;
+            font-family: "Roboto", sans-serif;
+            font-style: normal;
+            font-weight: 400;
+            height: 3rem;
+            width: 12rem;
+        }
+
+            .toggle-btn:hover {
+                background-color: lightblue;
+            }
+
+        .two-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-column-gap: 1rem;
+            grid-row-gap: 1rem;
+            justify-content:center;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"> ALMACEN GESTION ROMINA</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+<div>
+<div class="four-grid mt-4 mx-4">
+            <a class="layout-btn layout-btn-client" asp-area="" asp-controller="Client" asp-action="ListPaginated">Clientes</a>
+            <a class="layout-btn layout-btn-actualOrder" asp-area="" asp-controller="OrderBuy" asp-action="GetActualOrder">Ir a Orden Actual</a>
+            <a class="layout-btn layout-btn-provider" asp-area="" asp-controller="Provider" asp-action="ListPaginated">Proveedores</a>
+            <a class="layout-btn layout-btn-product" asp-area="" asp-controller="Product" asp-action="ListPaginated">Productos</a>
+</div>
+<div class="four-grid mx-4 mb-2">
+            <a class="layout-btn layout-btn-stock" asp-area="" asp-controller="StockLimit" asp-action="ListPaginated">Productos a Pedir</a>
+            <a class="layout-btn layout-btn-turnList" asp-area="" asp-controller="Turn" asp-action="ListPaginated">Turnos</a>
+            <a class="layout-btn layout-btn-actualTurn" asp-area="" asp-controller="Turn" asp-action="ActualTurn">Turno actual</a>
+            <a class="layout-btn layout-btn-cashFlow" asp-area="" asp-controller="Turn" asp-action="CashFlowList">Ingresos/Egresos</a>
+</div>
+
+        <main role="main" class="mx-4 pb-2">
+            @RenderBody()
+        </main>
+</div>
+
+    <footer class="footer text-center">
+            &copy; 2024 - StockSale.App - <a asp-area="" asp-controller="Home" asp-action="Privacy" class="text-light">Privacidad</a>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,31 @@
+﻿@model StockSale.App.Models.ViewModels.AddProviderRequest
+
+<h1 class="title mb-3">Añadir Proveedores</h1>
+<div class="py-2">
+    <form method="post">
+        <div class="two-grid">
+            <div class="inputBox">
+            <input type="text" id="name" asp-for="Name" required/>
+            <span>Nombre</span>
+        </div>
+            <div class="inputBox">
+            <input type="text" id="email" asp-for="Email" required/>
+            <span>Email</span>
+        </div>
+            <div class="inputBox">
+            <input type="text" id="phone" asp-for="Phone" required/>
+            <span>Telefono</span>
+        </div>
+            <div class="inputBox">
+            <input type="text" id="company" asp-for="Company" required/>
+            <span>Empresa</span>
+        </div>
+        </div>
+
+        <div class="btn-center">
+            <button type="submit" class="conf-button w-50">
+                <span class="text">Guardar</span>
+            </button>
+        </div>
+    </form>
+</div>

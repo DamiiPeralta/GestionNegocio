@@ -1,0 +1,85 @@
+﻿@model StockSale.App.Models.Domain.OrderBuy
+
+@{
+    ViewData["Title"] = "Detalles de la Orden";
+    var totalGain = 0f;
+    var priceSell = 0f;
+    var priceList = 0f;
+
+    foreach (var product in Model.Products_Prices)
+    {
+        priceSell = priceSell + product.PriceSell * product.Quantity;
+        priceList = priceList + product.PriceList * product.Quantity;
+    }
+    totalGain = priceSell - priceList;
+    totalGain = totalGain - @Model.TotalDiscount;
+
+}
+
+<div>
+    <h1 class="title mb-4">Detalles de la Orden</h1>
+    <div class="two-grid">
+        <div class="text-grid">
+                <p><strong>N° Turno: </strong>@(Model.Turn != null ? Model.Turn.NTurn.ToString("D4") : "Sin turno asignado")</p>
+                <p><strong>N° Orden: </strong>@Model.NOrderBuy.ToString("D4")</p>
+                <p><strong>Fecha: </strong>@Model.Date.ToString("dd/MM/yyyy")</p>
+                <p><strong>Cliente: </strong> @(Model.Client != null ? Model.Client.Name : "Particular")</p>
+        </div>
+        <div class="d-flex flex-column text-start">
+            <p><strong>Descuento: </strong>@Model.Discount%</p>
+            <p><strong>Importe Total: </strong>@Model.Import.ToString("C")</p>
+            <p><strong>Descuento Aplicado: </strong>@Model.TotalDiscount.ToString("C")</p>
+            <p><strong>Total Final: </strong>@Model.FinalTotal.ToString("C")</p>
+            <p><strong>Ganancia Final: </strong>@totalGain.ToString("C")</p>
+        </div>
+    </div>
+
+    @if (Model != null)
+    {
+        <div class="table-responsive">
+            <table class="table table-responsive table-hover">
+                <thead class="table-head">
+                    <tr>
+                        <th>N° Producto</th>
+                        <th>Nombre Producto</th>
+                        <th>Precio Lista</th>
+                        <th>Precio Venta</th>
+                        <th>Cantidad</th>
+                        <th>Modo de Pago</th>
+                        <th>Importe</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var product in Model.Products_Prices)
+                    {
+                        var import = 0f;
+                        import = product.PriceSell * product.Quantity;
+                        <tr>
+                            <td>@product.Product.NProduct.ToString("D4")</td>
+                            <td>@product.Product.Name</td>
+                            <td>@product.PriceList.ToString("C")</td>
+                            <td>@product.PriceSell.ToString("C")</td>
+                            <td>@product.Quantity</td>
+                            <td>
+                            @if (Model.CashPay == true)
+                            {
+                                    <span class="badge bg-money">Efectivo</span>
+                            }
+                            else
+                            {
+                                    <span class="badge bg-card">Tarjeta</span>
+                            }
+                            </td>
+                            <td>@import.ToString("C")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <p class="notFound">Esta orden no existe.</p>
+    }
+</div>
+

@@ -1,0 +1,137 @@
+﻿@model ResumeViewModel
+@{
+    ViewBag.Title = "Resumen de Ventas";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">Resumen de Ventas</h2>
+
+    <!-- Totales -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Total Ventas</h5>
+                    <p class="h4">@Model.TotalImporte.ToString("C")</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Ganancia</h5>
+                    <p class="h4">@Model.TotalGanancia.ToString("C")</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning text-dark">
+                <div class="card-body">
+                    <h5 class="card-title">Descuentos</h5>
+                    <p class="h4">@Model.TotalDescuentos.ToString("C")</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-danger text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Gastos</h5>
+                    <p class="h4">@Model.TotalGastos.ToString("C")</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filtros -->
+    <form method="get" class="row mb-4">
+        <div class="col-md-2">
+            <label for="from">Desde</label>
+            <input type="date" name="from" class="form-control" />
+        </div>
+        <div class="col-md-2">
+            <label for="to">Hasta</label>
+            <input type="date" name="to" class="form-control" />
+        </div>
+        <div class="col-md-3">
+            <label for="period">Periodo</label>
+            <select name="period" class="form-select">
+                <option value="">-- Seleccionar --</option>
+                <option value="day">Día</option>
+                <option value="week">Semana</option>
+                <option value="month">Mes</option>
+                <option value="year">Año</option>
+            </select>
+        </div>
+        <div class="col-md-2 d-flex align-items-end">
+            <button type="submit" class="btn btn-dark w-100">Filtrar</button>
+        </div>
+    </form>
+
+    <!-- Tabla de órdenes -->
+    <h4>Órdenes de Compra</h4>
+    <table class="table table-bordered table-hover">
+        <thead class="table-light">
+            <tr>
+                <th>N° Orden</th>
+                <th>Cliente</th>
+                <th>Fecha</th>
+                <th>Importe</th>
+                <th>Descuento</th>
+                <th>Total</th>
+                <th>Ganancia</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model.Orders)
+            {
+                var ganancia = order.Products_Prices?.Sum(pp => (pp.PriceSell - pp.PriceList) * pp.Quantity) ?? 0;
+
+                <tr>
+                    <td>@order.NOrderBuy</td>
+                    <td>@order.Client?.Name</td>
+                    <td>@order.Date.ToString("dd/MM/yyyy")</td>
+                    <td>@order.Import.ToString("C")</td>
+                    <td>@order.TotalDiscount.ToString("C")</td>
+                    <td>@order.FinalTotal.ToString("C")</td>
+                    <td>@ganancia.ToString("C")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- Paginación de órdenes -->
+    <nav aria-label="Paginación">
+        <ul class="pagination">
+            @for (int i = 1; i <= (int)ViewBag.TotalPages; i++)
+            {
+                <li class="page-item @(ViewBag.PageNumber == i ? "active" : "")">
+                    <a class="page-link" href="?pageNumber=@i&pageSize=@ViewBag.PageSize">@i</a>
+                </li>
+            }
+        </ul>
+    </nav>
+
+    <!-- Tabla de movimientos de efectivo -->
+    <h4 class="mt-5">Movimientos de Efectivo</h4>
+    <table class="table table-bordered table-striped">
+        <thead class="table-light">
+            <tr>
+                <th>Fecha</th>
+                <th>Importe</th>
+                <th>Tipo</th>
+                <th>Comentario</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var cf in Model.CashFlows)
+            {
+                <tr class="@(cf.Income ? "table-success" : "table-danger")">
+                    <td>@cf.Date.ToString("dd/MM/yyyy")</td>
+                    <td>@cf.Import.ToString("C")</td>
+                    <td>@(cf.Income ? "Ingreso" : "Gasto")</td>
+                    <td>@(cf.Comment ?? "???")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,669 @@
+﻿html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.cls-btn {
+    width: 100%;
+    height: 3rem;
+    margin: auto;
+    color: #fff;
+    border-radius: 5px;
+    padding: 10px 25px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+    box-shadow: inset 2px 2px 2px 0px rgba(255,255,255,.5), 7px 7px 20px 0px rgba(0,0,0,.1), 4px 4px 5px 0px rgba(0,0,0,.1);
+    outline: none;
+}
+
+.cls-btn-1 {
+    background: #C20A2C;
+    background: linear-gradient(0deg, rgba(194,10,44,1) 0%, rgba(194,10,44,1) 100%);
+    border: none;
+}
+
+    .cls-btn-1:before {
+        height: 0%;
+        width: 2px;
+    }
+
+    .cls-btn-1:hover {
+        box-shadow: 4px 4px 6px 0 rgba(255,255,255,.5), -4px -4px 6px 0 rgba(116, 125, 136, .5), inset -4px -4px 6px 0 rgba(255,255,255,.2), inset 4px 4px 6px 0 rgba(0, 0, 0, .4);
+    }
+
+.conf-button {
+    background-image: linear-gradient(144deg, #af40ff, #5b42f3 50%, #00ddeb);
+    border: 0;
+    border-radius: 8px;
+    box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+    box-sizing: border-box;
+    color: #ffffff;
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1em;
+    max-width: 100%;
+    min-width: 140px;
+    padding: 3px;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.3s;
+    width: 100%;
+    height: 3rem;
+    margin: auto;
+}
+
+    .conf-button:active,
+    .conf-button:hover {
+        outline: 0;
+    }
+
+.conf-button span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(5, 6, 45);
+    border-radius: 6px;
+    width: 100%;
+    height: 100%;
+    transition: 300ms;
+}
+
+.conf-button:hover span {
+    background: none;
+}
+
+.conf-button:active {
+    transform: scale(0.9);
+}
+
+.container-btn-file {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    background-color: #307750;
+    color: #fff;
+    border-style: none;
+    padding: 1em 2em;
+    border-radius: 0.5em;
+    overflow: hidden;
+    z-index: 1;
+    box-shadow: 4px 8px 10px -3px rgba(0, 0, 0, 0.356);
+    transition: all 250ms;
+    width: 100%;
+    height: 3rem;
+}
+
+    .container-btn-file > svg {
+        margin-right: 1em;
+    }
+
+    .container-btn-file::before {
+        content: "";
+        position: absolute;
+        height: 100%;
+        width: 0;
+        border-radius: 0.5em;
+        background-color: #469b61;
+        z-index: -1;
+        transition: all 350ms;
+    }
+
+    .container-btn-file:hover::before {
+        width: 100%;
+    }
+
+.dlt-button {
+    position: relative;
+    height: 3rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 15px 20px;
+    background-color: #212121;
+    border: none;
+    font: inherit;
+    color: #e8e8e8;
+    font-size: 20px;
+    font-weight: 600;
+    border-radius: 50px;
+    cursor: not-allowed;
+    overflow: hidden;
+    transition: all 0.3s ease cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+    .dlt-button span {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+    }
+
+    .dlt-button::before {
+        position: absolute;
+        content: '';
+        width: 100%;
+        height: 100%;
+        translate: 0 105%;
+        background-color: #F53844;
+        transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+    }
+
+    .dlt-button svg {
+        width: 32px;
+        height: 32px;
+        fill: #F53844;
+        transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+    }
+
+    .dlt-button:hover {
+        animation: shake 0.2s linear 1;
+    }
+
+        .dlt-button:hover::before {
+            translate: 0 0;
+        }
+
+        .dlt-button:hover svg {
+            fill: #e8e8e8;
+        }
+    
+@keyframes shake {
+    0% {
+        rotate: 0deg;
+    }
+
+    33% {
+        rotate: 3deg;
+    }
+
+    66% {
+        rotate: -3deg;
+    }
+
+    100% {
+        rotate: 3deg;
+    }
+}
+
+.inputBox {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.editBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+    .inputBox input,
+    .inputBox select,
+    .editBox input,
+    .editBox select{
+        padding: 15px 20px;
+        outline: none;
+        background: #333;
+        border-radius: 5px;
+        color: #2575fc;
+        border: 1px solid #2575fc;
+        font-size: 1rem;
+        font-weight: bold;
+        width: 75%;
+    }
+
+        .inputBox input:focus,
+        .inputBox input:valid,
+        .inputBox input:hover,
+        .inputBox select:focus,
+        .inputBox select:hover,
+        .inputBox select:valid {
+            transition: 0.3s;
+            box-shadow: 0 0 0 2px #2575fc;
+        }
+    .inputBox label, .editBox label {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #2575fc;
+        letter-spacing: 0.1em;
+    }
+    .inputBox span {
+        position: absolute;
+        padding: 15px 20px;
+        pointer-events: none;
+        font-size: 1.2rem;
+        font-weight: bold;
+        transition: 0.4s cubic-bezier(0.05, 0.81, 0, 0.93);
+        color: #2575fc;
+        letter-spacing: 0.1em;
+    }
+
+    .inputBox input:focus ~ span,
+    .inputBox input:valid ~ span,
+    .inputBox select:focus ~ span,
+    .inputBox select:valid ~ span {
+        font-size: 1rem;
+        transform: translateY(-15px);
+        padding: 0 5px;
+        border-radius: 2px;
+        background: #333;
+        letter-spacing: 0em;
+        border: 1px solid #2575fc;
+    }
+
+
+/* Estilos base para los botones */
+.editGoButton {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 16px 36px;
+    border: 4px solid;
+    border-color: transparent;
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 600;
+    background-color: #2575fc;
+    border-radius: 100px;
+    color: floralwhite;
+    box-shadow: 0 0 0 2px floralwhite;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    margin: auto;
+    height: 4rem;
+    width: 100%;
+}
+
+.go-button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 16px 36px;
+    border: 4px solid;
+    border-color: transparent;
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 600;
+    background-color: #2575fc;
+    border-radius: 100px;
+    color: floralwhite;
+    box-shadow: 0 0 0 2px floralwhite;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    margin: auto;
+    height: 3rem;
+    width: 100%;
+}
+
+    .go-button svg,
+    .editGoButton svg{
+        position: absolute;
+        width: 24px;
+        fill: floralwhite;
+        z-index: 9;
+        transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .go-button .arr-1,
+    .editGoButton .arr-1{
+        right: 12px;
+    }
+
+    .go-button .arr-2,
+    .editGoButton .arr-2{
+        left: -25%;
+    }
+
+    .go-button .circle,
+    .editGoButton .circle{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 20px;
+        height: 20px;
+        background-color: floralwhite;
+        border-radius: 50%;
+        opacity: 0;
+        transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .go-button .text,
+    .editGoButton .text{
+        position: relative;
+        z-index: 1;
+        transform: translateX(-25px);
+        transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .go-button:hover,
+    .editGoButton:hover{
+        box-shadow: 0 0 0 12px transparent;
+        color: #212121;
+        border-radius: 12px;
+    }
+
+        .go-button:hover .arr-1,
+        .editGoButton:hover .arr-1{
+            right: -25%;
+        }
+
+        .go-button:hover .arr-2,
+        .editGoButton:hover .arr-2{
+            left: 16px;
+        }
+
+        .go-button:hover .text,
+        .editGoButton:hover .text{
+            transform: translateX(6px);
+        }
+
+        .go-button:hover svg,
+        .editGoButton:hover svg{
+            fill: #212121;
+        }
+
+    .go-button:active,
+    .editGoButton:active{
+        scale: 0.95;
+        box-shadow: 0 0 0 4px floralwhite;
+    }
+
+    .go-button:hover .circle,
+    .editGoButton:hover .circle{
+        width: 100%;
+        height: 220px;
+        opacity: 1;
+    }
+
+.layout-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #333;
+    color: #e8e8e8;
+    font-size: 17px;
+    font-weight: 600;
+    border-radius: 10px;
+    height: 3rem;
+    width: 100%;
+    border: none;
+    text-decoration: none;
+    cursor: pointer;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(51, 51, 51, 0.2);
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+    .layout-btn::before,
+    .layout-btn::after {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 99;
+        transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+    }
+
+    .layout-btn::before {
+        background: linear-gradient(135deg, #2575fc, #6a11cb);
+        transform: translateY(90%);
+        transform-origin: bottom;
+    }
+
+    .layout-btn::after {
+        background-color: #333;
+        transform-origin: top;
+        transform: translateY(-100%);
+    }
+
+    .layout-btn:hover::before {
+        transform: translateY(0%);
+    }
+
+    .layout-btn:hover::after {
+        transform: translateY(-200%);
+    }
+
+    .layout-btn:focus {
+        outline: none;
+    }
+
+    .layout-btn:active {
+        scale: 0.95;
+    }
+
+/* Estilos específicos para cada tipo de botón */
+.layout-btn-client::before {
+    content: "Ir a Cliente";
+}
+
+.layout-btn-client::after {
+    content: "Clientes";
+}
+
+.layout-btn-actualOrder::before {
+    content: "Orden Actual";
+}
+
+.layout-btn-actualOrder::after {
+    content: "Ir a Orden Actual";
+}
+
+.layout-btn-fiado::before {
+    content: "Ir a Fiados";
+}
+
+.layout-btn-fiado::after {
+    content: "Fiados";
+}
+
+.layout-btn-provider::before {
+    content: "Ir a Proveedores";
+}
+
+.layout-btn-provider::after {
+    content: "Proveedores";
+}
+
+.layout-btn-product::before {
+    content: "Ir a Productos";
+}
+
+.layout-btn-product::after {
+    content: "Productos";
+}
+.layout-btn-stock::before {
+    content: "Ir a Productos a Pedir";
+}
+
+.layout-btn-stock::after {
+    content: "Productos a Pedir";
+}
+
+.layout-btn-turnList::before {
+    content: "Ir a Turnos";
+}
+
+.layout-btn-turnList::after {
+    content: "Turnos";
+}
+
+.layout-btn-actualTurn::before {
+    content: "Ir a Turno Actual";
+}
+
+.layout-btn-actualTurn::after {
+    content: "Turno";
+}
+
+.layout-btn-cashFlow::before {
+    content: "Ir a Ingresos/Egresos";
+}
+
+.layout-btn-cashFlow::after {
+    content: "Ingresos/Egresos";
+}
+
+.new-button {
+    --main-focus: #2d8cf0;
+    --font-color: #fff;
+    --bg-color-sub: #2575fc;
+    --bg-color: #000;
+    --main-color: #6a11cb;
+    position: relative;
+    width: 50%;
+    height: 3rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border: 2px solid var(--main-color);
+    box-shadow: 4px 4px var(--main-color);
+    background-color: var(--bg-color);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: auto;
+}
+
+.new-button, .new-button__icon, .new-button__text {
+    transition: all 0.3s;
+}
+
+    .new-button .new-button__text {
+        transform: translateX(0);
+        color: var(--font-color);
+        font-weight: 600;
+        width: 60%;
+        padding-right: 1rem;
+    }
+
+    .new-button .new-button__icon {
+        position: absolute;
+        right: 0;
+        height: 100%;
+        width: 40%;
+        background-color: var(--bg-color-sub);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transform: translateX(0);
+    }
+
+    .new-button .svg {
+        width: 50px;
+        fill: var(--main-color);
+    }
+
+    .new-button:hover {
+        background: var(--bg-color);
+    }
+
+        .new-button:hover .new-button__text {
+            color: transparent;
+        }
+
+        .new-button:hover .new-button__icon {
+            transform: translateX(0);
+            width: 100%;
+        }
+
+    .new-button:active {
+        transform: translate(3px, 3px);
+        box-shadow: 0px 0px var(--main-color);
+    }
+
+    .new-button.add-button {
+        --bg-color-sub: darkgreen;
+    }
+
+    .new-button.add-button .new-button__icon {
+        background-color: darkgreen;
+    }
+
+    .new-button.add-button .svg {
+        fill: #fff;
+    }
+
+    
+    .new-button.remove-button {
+        --bg-color-sub: #C20A2C;
+    }
+
+        .new-button.remove-button .new-button__icon {
+            background-color: #C20A2C;
+        }
+
+    .new-button.remove-button .svg {
+        fill: #fff;
+    }
+
+.temp-container{
+    position:relative;
+}
+
+.success {
+    position: absolute;
+    text-align: center;
+    color: green;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.error {
+    position: absolute;
+    text-align: center;
+    color: red;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.success, .error {
+    position: absolute;
+    top: 50%; /* Aparecerá justo debajo del botón */
+    left: 0;
+    width: 100%; /* Asegura que ocupe todo el ancho disponible */
+}
