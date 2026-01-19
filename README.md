@@ -1,2 +1,2 @@
 # GestionNegocio
-sismeta de gestion de negocios terminada version 1.0.0
+sismeta de gestion de negocios terminada version 1.0.2
