@@ -1,5 +1,5 @@
 # 📦 Sistema de Gestión de Negocio y Punto de Venta (POS)
-**Versión 1.0.2**
+
 
 ---
 
@@ -109,9 +109,3 @@ Porque no solo registra lo que pasa…
 - Emprendimientos en crecimiento  
 - Cualquier negocio que necesite orden y control  
 
----
-
-## 🧠 En pocas palabras
-
-Un sistema pensado para dejar de adivinar  
-y empezar a entender tu negocio con claridad.
