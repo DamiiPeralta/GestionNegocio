@@ -1,180 +1,77 @@
-# GestionNegocio
-sismeta de gestion de negocios terminada version 1.0.2
+📦 Sistema de Gestión de Negocio y Punto de Venta (POS)
+Versión 1.0.2
 
-📦 Sistema de Gestión de Negocio y Punto de Venta
-Descripción general
+🧾 ¿Qué es?
 
-Esta aplicación es un sistema de gestión de negocio y punto de venta (POS) orientado a controlar ventas, compras, stock, cuentas corrientes y movimientos de caja, manteniendo trazabilidad histórica de precios y operaciones.
+Es un sistema completo para administrar un negocio en el día a día: ventas, compras, stock, clientes, proveedores y caja.
+Está diseñado para que siempre sepas qué pasó, cuándo pasó y cómo impactó en tu negocio, sin perder información en el camino.
 
-El foco principal del sistema es registrar correctamente el estado del negocio en el tiempo, permitiendo auditoría, control financiero y seguimiento de clientes y proveedores.
+🚀 ¿Qué te permite hacer?
+Registrar ventas de forma simple y ordenada
+Controlar el stock automáticamente
+Llevar cuentas corrientes de clientes y proveedores
+Administrar ingresos y egresos de dinero
+Tener control total de la caja por día o turno
+Revisar el historial real del negocio (sin datos alterados)
 
-🧱 Módulos principales
+🧩 Funcionalidades principales
+
 👥 Clientes
-
-Registro y gestión de clientes.
-
-Asociación de ventas y cuentas corrientes.
-
-Seguimiento de saldos, pagos y deudas.
+Registro de clientes
+Seguimiento de deudas y pagos
+Historial completo de compras
 
 🏭 Proveedores
+Gestión de proveedores
+Registro de compras y pedidos
+Control de pagos y saldos
 
-Registro y gestión de proveedores.
+🧾 Ventas
+Registro de cada venta con detalle
+Impacto automático en stock y caja
+Posibilidad de vender con cuenta corriente
 
-Asociación de órdenes de pedido y compras.
+📦 Compras
+Gestión de pedidos a proveedores
+El stock se actualiza solo al confirmar la compra
+Control claro de lo comprado y lo pendiente
 
-Integración con stock y cuentas corrientes.
-
-🧾 Órdenes de Venta (Órdenes de Compra)
-
-Representan las ventas realizadas a clientes.
-
-Cada orden queda asociada a:
-
-Cliente
-
-Fecha
-
-Turno de caja
-
-Productos vendidos
-
-Precios históricos del momento de la venta
-
-Impactan en:
-
-Stock (egreso)
-
-Caja
-
-Cuenta corriente del cliente (si aplica)
-
-📦 Órdenes de Pedido a Proveedor
-
-Representan pedidos de mercadería a proveedores.
-
-Funcionan en dos etapas:
-
-Pedido abierto: no impacta stock.
-
-Pedido cerrado: al cerrarse, suma stock automáticamente.
-
-Asociadas a precios históricos del momento de la compra.
-
-Impactan en:
-
-Stock (ingreso)
-
-Cuenta corriente del proveedor
-
-Caja (si se registra pago)
-
-🏷️ Product Prices (Histórico de precios)
-
-Entidad clave del sistema.
-
-Registra el precio de un producto en un momento específico del tiempo.
-
-Guarda:
-
-Precio de lista
-
-Precio de venta
-
-Fecha
-
-Producto
-
-Orden asociada (venta o pedido a proveedor)
-
+🏷️ Historial de precios
+Cada venta y compra guarda su precio real en el momento.
 Esto permite:
+Ver márgenes reales
+Analizar cambios de precios
+Revisar operaciones pasadas sin errores
 
-Mantener coherencia histórica (los precios no cambian retroactivamente).
+💰 Caja
+Registro de todos los movimientos de dinero
+Control diario o por turno
+Cierre de caja claro y ordenado
 
-Analizar márgenes, variaciones de precio y rentabilidad.
+📒 Cuentas corrientes
+Para clientes y proveedores
+Control automático de deudas y pagos
+Todo vinculado a las operaciones reales
 
-Auditar ventas y compras pasadas sin depender del precio actual del producto.
+🕒 Turnos de caja
+Organización del negocio por jornada
+Permite saber quién hizo qué y cuándo
+Ideal para negocios con empleados
 
-📒 Sistema de Cuentas Corrientes
+🎯 ¿Por qué usar este sistema?
+Porque no solo registra lo que pasa…
+te muestra la realidad del negocio sin distorsiones.
+Los precios no se modifican con el tiempo
+El stock refleja movimientos reales
+La caja muestra dinero real
+Todo queda registrado y se puede auditar
 
-Manejo de cuentas corrientes para:
+💡 Ideal para
+Comercios minoristas
+Negocios con stock
+Emprendimientos en crecimiento
+Cualquier negocio que necesite orden y control
 
-Clientes
-
-Proveedores
-
-Registro de:
-
-Débitos (ventas, compras)
-
-Créditos (pagos, cobros)
-
-Cálculo automático de saldo.
-
-Asociación directa con órdenes y movimientos de caja.
-
-💰 Caja y Movimientos de Dinero
-
-Registro de ingresos y egresos de dinero.
-
-Cada movimiento incluye:
-
-Tipo (ingreso / egreso)
-
-Monto
-
-Fecha
-
-Concepto
-
-Turno de caja asociado
-
-Permite:
-
-Control diario de caja
-
-Cierre por turno
-
-Seguimiento financiero por fecha
-
-🕒 Turnos de Caja
-
-Agrupan los movimientos de dinero por período operativo.
-
-Cada turno puede incluir:
-
-Ventas
-
-Cobros
-
-Pagos
-
-Ingresos y egresos manuales
-
-Facilita el control y cierre de caja por jornada o responsable.
-
-🎯 Objetivos del sistema
-
-Control integral del negocio.
-
-Trazabilidad completa de precios y operaciones.
-
-Separación clara entre:
-
-Operaciones comerciales
-
-Impacto en stock
-
-Impacto financiero
-
-Escalabilidad para distintos tipos de negocios.
-
-🧠 Filosofía de diseño
-
-Los precios nunca se modifican retroactivamente.
-
-El stock solo cambia por eventos explícitos (ventas cerradas, pedidos cerrados).
-
-La caja refleja únicamente movimientos reales de dinero.
-
-Todo evento importante queda asociado a una fecha y a un turno.
+🧠 En pocas palabras
+Un sistema pensado para que puedas dejar de adivinar
+y empezar a entender tu negocio con claridad.
